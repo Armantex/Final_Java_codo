@@ -15,11 +15,10 @@ import lombok.Setter;
 @Setter
 @Entity
 public class Asiento {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String nro;
-    private Boolean disponible;
+    private Long asientoId;
+    private String nroAsiento;
+    private Boolean Disponibilidad;
 
 }

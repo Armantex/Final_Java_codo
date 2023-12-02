@@ -16,9 +16,11 @@ import java.time.LocalDateTime;
 public class Vuelo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long vueloId;
 
-    private LocalDateTime horario;
+    private LocalDateTime horarioInicio;
+
+    private LocalDateTime horarioFinal;
 
     private String aeropuertoOrigen;
 
@@ -27,9 +29,8 @@ public class Vuelo {
     private Double precio;
 
     @OneToOne
-    @JoinColumn(name = "aerolinea_id")
+    @JoinColumn(name = "aerolineaId")
     private Aerolinea aerolinea;
 
-    @OneToMany(mappedBy = "vuelo", cascade = CascadeType.ALL)
-    private Asiento asiento;
+    private String opcionesConexion;
 }

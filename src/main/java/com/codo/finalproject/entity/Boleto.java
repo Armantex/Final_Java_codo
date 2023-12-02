@@ -1,8 +1,6 @@
 package com.codo.finalproject.entity;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,9 +11,12 @@ import lombok.NoArgsConstructor;
 public class Boleto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long boletoId;
     private String nombreCliente;
     private Enum fromaDePago;
     private Long idVuelo;
     private Long idUsuario;
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "asientoId")
+    private Asiento asiento;
 }

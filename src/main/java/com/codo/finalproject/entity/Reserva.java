@@ -1,19 +1,25 @@
 package com.codo.finalproject.entity;
+
+import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDate;
+import java.util.List;
 
-@Data
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
+@Entity
 public class Reserva {
-    Boleto Pasajeros;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long reservaId;
+    List<String> nombresPasajeros;
     LocalDate fechaViaje;
-    List<Asiento> preferenciasAsientos;
+    List<Asiento> AsientosId;
     int detallesContacto;
 }

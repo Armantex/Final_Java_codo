@@ -1,4 +1,4 @@
-package com.codo.finalproject.repository;
+package com.codo.finalproject.repository.cliente;
 
 
 public interface IClientesRepository {
