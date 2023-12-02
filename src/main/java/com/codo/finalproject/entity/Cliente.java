@@ -17,10 +17,10 @@ public class Cliente{
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "usuario_id")
-    Usuario usuario_cliente;
+    private Usuario usuario_cliente;
 
     @ManyToOne
     @JoinColumn(name = "boletos_id")
-    Boleto boletos_cliente;
+    private Boleto boletos_cliente;
 
 }

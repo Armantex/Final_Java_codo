@@ -1,12 +1,12 @@
 package com.codo.finalproject.controller;
-import com.codo.finalproject.dto.request.ReservaSaveDto;
+import com.codo.finalproject.dto.request.ReservaDto;
 import jakarta.validation.Valid;
 import com.codo.finalproject.dto.request.VueloDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.codo.finalproject.service.usuario.IUsuarioService;
-import com.codo.finalproject.service.usuario.UsuarioServiceImp;
+import com.codo.finalproject.service.interfaces.IUsuarioService;
+import com.codo.finalproject.service.implementations.UsuarioServiceImp;
 
 @RestController
 public class UsuarioController {
@@ -15,7 +15,7 @@ public class UsuarioController {
         this.service = service;
     }
     @PostMapping("/usuario/reserva")
-    public ResponseEntity<?>crearReserva(@RequestBody @Valid ReservaSaveDto reserva){
+    public ResponseEntity<?>crearReserva(@RequestBody @Valid ReservaDto reserva){
         return new ResponseEntity<>(service.crearReserva(reserva),HttpStatus.OK);
     }
 

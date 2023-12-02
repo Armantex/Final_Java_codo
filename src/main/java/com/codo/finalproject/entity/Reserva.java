@@ -14,17 +14,17 @@ public class Reserva {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    LocalDate fechaViaje;
+    private LocalDate fechaViaje;
 
     @ManyToOne
     @JoinColumn(name = "pasajeros_id")
-    Pasajero pasajeros_reserva;
+    private Pasajero pasajeros_reserva;
 
     @ManyToOne
     @JoinColumn(name = "asientos_id")
-    Asiento asientos_reserva;
+    private Asiento asientos_reserva;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "usuario_id")
-    Usuario usuario_reserva;
+    private Usuario usuario_reserva;
 }

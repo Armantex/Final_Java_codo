@@ -10,9 +10,10 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
-public class ReservaSaveDto {
-    List<String> nombresPasajeros;
+public class ReservaDto {
+    Long id;
     LocalDate fechaViaje;
-    List<Asiento> AsientosId;
-    int detallesContacto;
+    Long pasajeroId;
+    Long asientoId;
+    Long usuarioId;
 }
