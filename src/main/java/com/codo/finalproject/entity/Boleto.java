@@ -17,8 +17,6 @@ public class Boleto {
     private Long id;
     private String nombreCliente;
     private String formaDePago;
-    private Long idVuelo;
-    private Long idUsuario;
 
     @OneToMany(mappedBy = "boletos_cliente")
     private Set<Cliente> cliente;
