@@ -1,13 +1,9 @@
 package com.codo.finalproject.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,9 +13,18 @@ import java.util.List;
 public class Reserva {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long reservaId;
-    List<String> nombresPasajeros;
+    private Long id;
     LocalDate fechaViaje;
-    List<Asiento> AsientosId;
-    int detallesContacto;
+
+    @ManyToOne
+    @JoinColumn(name = "pasajeros_id")
+    Pasajero pasajeros_reserva;
+
+    @ManyToOne
+    @JoinColumn(name = "asientos_id")
+    Asiento asientos_reserva;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "usuario_id")
+    Usuario usuario_reserva;
 }

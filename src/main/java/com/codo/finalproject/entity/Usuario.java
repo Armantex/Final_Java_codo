@@ -1,15 +1,9 @@
 package com.codo.finalproject.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDate;
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -18,10 +12,18 @@ import java.util.List;
 public class Usuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
     private String nombre;
     private Integer telefono;
     private String domicilio;
     private String email;
 
+    @OneToOne(mappedBy = "usuario_reserva")
+    private Reserva reserva;
+
+    @OneToOne(mappedBy = "usuario_cliente")
+    private Cliente cliente;
+
+    @OneToOne(mappedBy = "usuario_boleto")
+    private Boleto boleto;
 }

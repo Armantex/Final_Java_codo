@@ -1,13 +1,12 @@
 package com.codo.finalproject.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -17,8 +16,13 @@ import lombok.Setter;
 public class Asiento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long asientoId;
+    private Long id;
     private String nroAsiento;
     private Boolean Disponibilidad;
 
+    @OneToMany(mappedBy = "asientos_reserva")
+    private Set<Reserva> reservas;
+
+    @OneToOne(mappedBy = "asiento_boleto")
+    private Boleto boleto;
 }
