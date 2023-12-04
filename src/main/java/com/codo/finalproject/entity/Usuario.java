@@ -1,5 +1,6 @@
 package com.codo.finalproject.entity;
 
+import com.codo.finalproject.util.Rol;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,6 +18,8 @@ public class Usuario {
     private Integer telefono;
     private String domicilio;
     private String email;
+    private Rol rol;
+
 
     @OneToOne(mappedBy = "usuario_reserva")
     private Reserva reserva;
