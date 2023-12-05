@@ -17,6 +17,6 @@ public class Aerolinea {
     private Long id;
     private String nombre;
 
-    @OneToOne(mappedBy = "aerolinea_vuelo")
-    private Vuelo vuelo;
+   // @OneToOne(mappedBy = "aerolinea_vuelo")
+    //private Vuelo vuelo;
 }
