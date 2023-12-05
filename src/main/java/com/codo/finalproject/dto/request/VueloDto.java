@@ -22,6 +22,8 @@ public class VueloDto {
     private String aeropuertoDestino;
     private Double precio;
     private String aerolinea;
+    private Boolean isFull;
+    private short espacioDisponible;
 
     @Override
     public String toString() {

@@ -23,6 +23,8 @@ public class Vuelo {
     private String aeropuertoDestino;
     private Double precio;
     private String opcionesConexion;
+    private Boolean isFull;
+    private short espacioDisponible;
 
     @OneToOne(mappedBy = "vuelo_boleto")
     private Boleto boleto;
