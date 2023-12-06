@@ -1,5 +1,6 @@
 package com.codo.finalproject.entity;
 
+import com.codo.finalproject.util.Aerolineas;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -23,13 +24,15 @@ public class Vuelo {
     private String aeropuertoDestino;
     private Double precio;
     private String opcionesConexion;
+    private Boolean isFull;
+    private short espacioDisponible;
 
     @OneToOne(mappedBy = "vuelo_boleto")
     private Boleto boleto;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "aerolinea_vuelo")
-    private Aerolinea aerolinea_vuelo;
-
+    //@OneToOne(cascade = CascadeType.ALL)
+    //@JoinColumn(name = "aerolinea_vuelo")
+    //private Aerolinea aerolinea_vuelo;
+    private String aerolinea;
 
 }

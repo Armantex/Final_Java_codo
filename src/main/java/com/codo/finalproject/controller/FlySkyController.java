@@ -1,4 +1,5 @@
 package com.codo.finalproject.controller;
+import com.codo.finalproject.service.interfaces.IVueloService;
 import jakarta.validation.Valid;
 import com.codo.finalproject.dto.request.VueloDto;
 import org.springframework.http.HttpStatus;
@@ -8,11 +9,16 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 public class FlySkyController {
 
+    IVueloService vueloService;
+
+    public FlySkyController(IVueloService vueloService) {
+        this.vueloService = vueloService;
+    }
 
     //usuarioService
     @GetMapping("/getAll/VuelosDisp") // lean
     public ResponseEntity<?>obtenerVuelosDisponibles(){
-        return new ResponseEntity<>(null, HttpStatus.OK);
+        return new ResponseEntity<>(vueloService.buscarDisponibles(), HttpStatus.OK);
     }
 
 
