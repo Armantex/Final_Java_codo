@@ -19,18 +19,18 @@ public class ReportesController {
         return new ResponseEntity<>(null,HttpStatus.OK);
     }
 
-    @GetMapping("/getInfo/InformeDiario/IngresosDelDia") //
+    @GetMapping("/getInfo/InformeDiario/IngresosDelDia") // carla
     // La cantidad de $ recaudada en el día
     public ResponseEntity<?>obtenerIngresosDelDia(){
         return new ResponseEntity<>(null,HttpStatus.OK);
     }
 
-    @GetMapping("/getInfo/InformeDiario/DestinoPopular")
+    @GetMapping("/getInfo/InformeDiario/DestinoPopular") // ale
     public ResponseEntity<?>obtenerDestinoPopular(){
         return new ResponseEntity<>(null,HttpStatus.OK);
     }
 
-    @GetMapping("/getInfo/InformeDiario/TendenciaReservas")
+    @GetMapping("/getInfo/InformeDiario/TendenciaReservas") // carla
     public ResponseEntity<?>obtenerTendenciaReservas(){
         return new ResponseEntity<>(null,HttpStatus.OK);
     }

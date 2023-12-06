@@ -14,7 +14,10 @@ public class Pasajero {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nombre;
+    private String apellido;
 
-    @OneToMany(mappedBy = "pasajeros_reserva")
-    private Set<Reserva> reserva;
+    @ManyToOne
+    @JoinColumn(name = "reserva_id")
+    private Reserva pasajeros_reserva;
+
 }

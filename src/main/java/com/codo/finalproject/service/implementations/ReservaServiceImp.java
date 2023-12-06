@@ -8,16 +8,16 @@ import com.codo.finalproject.entity.Comprobante;
 import com.codo.finalproject.entity.Reserva;
 import com.codo.finalproject.repository.interfaces.IComprobanteRepository;
 import com.codo.finalproject.repository.interfaces.IReservaRepository;
-import com.codo.finalproject.service.interfaces.IUsuarioService;
+import com.codo.finalproject.service.interfaces.IReservaService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 @Service
-public class UsuarioServiceImp implements IUsuarioService {
+public class ReservaServiceImp implements IReservaService {
     private final IReservaRepository reservaRepository;
     private final IComprobanteRepository comprobanteRepository;
     private final ObjectMapper mapper;
 
-    public UsuarioServiceImp(IReservaRepository reservaRepository, IComprobanteRepository comprobanteRepository){
+    public ReservaServiceImp(IReservaRepository reservaRepository, IComprobanteRepository comprobanteRepository){
         mapper = new ObjectMapper();
         this.reservaRepository = reservaRepository;
         this.comprobanteRepository = comprobanteRepository;
@@ -35,15 +35,11 @@ public class UsuarioServiceImp implements IUsuarioService {
         Comprobante comprobanteEntity = mapper.convertValue(pagoDto, Comprobante.class);
         Comprobante datosComprobante = comprobanteRepository.findByCodigoComprobante(comprobanteEntity.getCodigoComprobante());
         if (datosComprobante != null) {
-            return new ResponseDto(comprobanteEntity.toString());
+            return new ResponseDto("Tu pago fue realizado con exito");
         }
-        return new ResponseDto("Estamos Comprobando tu pago");
+        return new ResponseDto("Tu pago fue rechazado");
     }
 
-    @Override
-    public VueloDto vuelosDisponibles() {
-        return null;
-    }
 
 
 }

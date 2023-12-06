@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
+import java.util.Set;
 
 
 @AllArgsConstructor
@@ -22,13 +23,12 @@ public class Reserva {
     @JoinColumn(name = "comprobante_id")
     private Comprobante comprobante_reserva;
 
-    @ManyToOne
-    @JoinColumn(name = "pasajeros_id")
-    private Pasajero pasajeros_reserva;
 
-    @ManyToOne
-    @JoinColumn(name = "asientos_id")
-    private Asiento asientos_reserva;
+    @OneToMany(mappedBy = "pasajeros_reserva")
+    private Set<Pasajero> pasajeros;
+
+    @OneToMany(mappedBy = "asientos_reserva")
+    private Set<Asiento> asientos;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "usuario_id")

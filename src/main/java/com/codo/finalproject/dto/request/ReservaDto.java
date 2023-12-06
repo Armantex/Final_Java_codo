@@ -4,7 +4,6 @@ import com.codo.finalproject.entity.Asiento;
 
 import java.time.LocalDate;
 
-import com.codo.finalproject.entity.Pasajero;
 import com.codo.finalproject.entity.Usuario;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,7 +15,7 @@ import java.util.List;
 public class ReservaDto {
     LocalDate fechaViaje;
     Boolean Pagada;
-    List<Pasajero> pasajeros;
+    List<PasajeroDto> pasajeros;
     List<Asiento> asientos;
     Usuario usuario;
 }

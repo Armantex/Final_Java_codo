@@ -5,13 +5,13 @@ import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.codo.finalproject.service.interfaces.IUsuarioService;
-import com.codo.finalproject.service.implementations.UsuarioServiceImp;
+import com.codo.finalproject.service.interfaces.IReservaService;
+import com.codo.finalproject.service.implementations.ReservaServiceImp;
 
 @RestController
 public class RerservaController {
-    private final IUsuarioService service;
-    public RerservaController(UsuarioServiceImp service){
+    private final IReservaService service;
+    public RerservaController(ReservaServiceImp service){
         this.service = service;
     }
     @PostMapping("/usuario/reserva") // armando
@@ -24,10 +24,6 @@ public class RerservaController {
         return new ResponseEntity<>(service.pagar(pagoDto),HttpStatus.OK); // falta saber que le pongo de argumento
     }
 
-    @PostMapping("/usuario/vuelosdisponibles/{id}")
-    public ResponseEntity<?>vuelosDipoponibles(){
-        return new ResponseEntity<>(service.vuelosDisponibles(),HttpStatus.OK);
-    }
 
     @PostMapping("/reserva/{id}") // misael
     //UserStory1 "...para poder elegir el vuelo que mejor se adapte a mis necesidades."

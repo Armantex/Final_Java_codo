@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,12 +28,16 @@ public class Vuelo {
     private Boolean isFull;
     private short espacioDisponible;
 
+
     @OneToOne(mappedBy = "vuelo_boleto")
     private Boleto boleto;
 
     //@OneToOne(cascade = CascadeType.ALL)
     //@JoinColumn(name = "aerolinea_vuelo")
     //private Aerolinea aerolinea_vuelo;
+
+    //@OneToMany(mappedBy = "asientos_vuelo")
+    //private Set<Asiento> asientos;
     private String aerolinea;
 
 }

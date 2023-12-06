@@ -20,9 +20,17 @@ public class Asiento {
     private String nroAsiento;
     private Boolean Disponibilidad;
 
-    @OneToMany(mappedBy = "asientos_reserva")
-    private Set<Reserva> reservas;
+
+    @ManyToOne
+    @JoinColumn(name = "reserva_id")
+    private Reserva asientos_reserva;
+
+    @ManyToOne
+    @JoinColumn(name = "vielo_id")
+    private Vuelo asientos_vuelo;
 
     @OneToOne(mappedBy = "asiento_boleto")
     private Boleto boleto;
+
+
 }

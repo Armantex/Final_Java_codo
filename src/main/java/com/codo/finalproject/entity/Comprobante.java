@@ -15,8 +15,11 @@ public class Comprobante {
     private Long id;
     private MetodoPago metodoPago;
     private Double monto;
+    @Column(unique = true)
     private Integer codigoComprobante;
 
     @OneToOne(mappedBy = "comprobante_reserva")
     private Reserva reserva;
+
+
 }
