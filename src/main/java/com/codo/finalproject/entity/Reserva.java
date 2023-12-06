@@ -5,6 +5,7 @@ import lombok.*;
 
 import java.time.LocalDate;
 
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -15,6 +16,11 @@ public class Reserva {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDate fechaViaje;
+    private Boolean Pagada;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "comprobante_id")
+    private Comprobante comprobante_reserva;
 
     @ManyToOne
     @JoinColumn(name = "pasajeros_id")

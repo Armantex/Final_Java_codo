@@ -20,12 +20,12 @@ public class Usuario {
     private String email;
     private Rol rol;
 
+    @ManyToOne
+    @JoinColumn(name = "boletos_id")
+    private Boleto boletos_usuario;
 
     @OneToOne(mappedBy = "usuario_reserva")
     private Reserva reserva;
-
-    @OneToOne(mappedBy = "usuario_cliente")
-    private Cliente cliente;
 
     @OneToOne(mappedBy = "usuario_boleto")
     private Boleto boleto;

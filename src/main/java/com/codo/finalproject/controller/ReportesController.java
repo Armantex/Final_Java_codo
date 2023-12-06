@@ -3,10 +3,6 @@ package com.codo.finalproject.controller;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import jakarta.validation.Valid;
-import com.codo.finalproject.dto.request.VueloDto;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 @RestController
 public class ReportesController {
@@ -23,7 +19,7 @@ public class ReportesController {
         return new ResponseEntity<>(null,HttpStatus.OK);
     }
 
-    @GetMapping("/getInfo/InformeDiario/IngresosDelDia") // Carla
+    @GetMapping("/getInfo/InformeDiario/IngresosDelDia") //
     // La cantidad de $ recaudada en el día
     public ResponseEntity<?>obtenerIngresosDelDia(){
         return new ResponseEntity<>(null,HttpStatus.OK);

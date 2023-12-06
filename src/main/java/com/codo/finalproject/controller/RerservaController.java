@@ -1,7 +1,7 @@
 package com.codo.finalproject.controller;
+import com.codo.finalproject.dto.request.PagoDto;
 import com.codo.finalproject.dto.request.ReservaDto;
 import jakarta.validation.Valid;
-import com.codo.finalproject.dto.request.VueloDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +10,7 @@ import com.codo.finalproject.service.implementations.UsuarioServiceImp;
 
 @RestController
 public class RerservaController {
-    private IUsuarioService service;
+    private final IUsuarioService service;
     public RerservaController(UsuarioServiceImp service){
         this.service = service;
     }
@@ -20,8 +20,13 @@ public class RerservaController {
     }
 
     @PostMapping("/usuario/pagar") // armando
-    public ResponseEntity<?>pagar(@RequestBody @Valid VueloDto vueloDto){
-        return new ResponseEntity<>(service.Pagar(),HttpStatus.OK); // falta saber que le pongo de argumento
+    public ResponseEntity<?>pagar(@RequestBody @Valid PagoDto pagoDto){
+        return new ResponseEntity<>(service.pagar(pagoDto),HttpStatus.OK); // falta saber que le pongo de argumento
+    }
+
+    @PostMapping("/usuario/vuelosdisponibles/{id}")
+    public ResponseEntity<?>vuelosDipoponibles(){
+        return new ResponseEntity<>(service.vuelosDisponibles(),HttpStatus.OK);
     }
 
     @PostMapping("/reserva/{id}") // misael

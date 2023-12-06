@@ -16,10 +16,9 @@ public class Boleto {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nombreCliente;
-    private String formaDePago;
 
-    @OneToMany(mappedBy = "boletos_cliente")
-    private Set<Cliente> cliente;
+    @OneToMany(mappedBy = "boletos_usuario")
+    private Set<Usuario> usuario;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "vuelo_id")
