@@ -25,7 +25,7 @@ public class ReportesController {
         return new ResponseEntity<>(null,HttpStatus.OK);
     }
 
-    @GetMapping("/getInfo/InformeDiario/DestinoPopular") // ale
+    @GetMapping("/getInfo/InformeDiario/DestinoPopular") // Misael
     public ResponseEntity<?>obtenerDestinoPopular(){
         return new ResponseEntity<>(null,HttpStatus.OK);
     }

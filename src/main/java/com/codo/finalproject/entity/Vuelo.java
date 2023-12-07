@@ -27,17 +27,14 @@ public class Vuelo {
     private String opcionesConexion;
     private Boolean isFull;
     private short espacioDisponible;
+    private Aerolineas aerolinea;
+
+    @OneToOne(mappedBy = "vuelo_reserva")
+    private Reserva reserva;
+
+    @OneToMany(mappedBy = "asientos_vuelo")
+    private Set<Asiento> asientos;
 
 
-    @OneToOne(mappedBy = "vuelo_boleto")
-    private Boleto boleto;
-
-    //@OneToOne(cascade = CascadeType.ALL)
-    //@JoinColumn(name = "aerolinea_vuelo")
-    //private Aerolinea aerolinea_vuelo;
-
-    //@OneToMany(mappedBy = "asientos_vuelo")
-    //private Set<Asiento> asientos;
-    private String aerolinea;
 
 }

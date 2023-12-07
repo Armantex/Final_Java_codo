@@ -6,6 +6,8 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Set;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -20,13 +22,6 @@ public class Usuario {
     private String email;
     private Rol rol;
 
-    @ManyToOne
-    @JoinColumn(name = "boletos_id")
-    private Boleto boletos_usuario;
-
-    @OneToOne(mappedBy = "usuario_reserva")
-    private Reserva reserva;
-
-    @OneToOne(mappedBy = "usuario_boleto")
-    private Boleto boleto;
+    @OneToMany(mappedBy = "reservas_usuario")
+    private Set<Reserva> reservas;
 }

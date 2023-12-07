@@ -6,8 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.Set;
-
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -17,9 +15,7 @@ public class Asiento {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String nroAsiento;
     private Boolean Disponibilidad;
-
 
     @ManyToOne
     @JoinColumn(name = "reserva_id")
@@ -28,9 +24,5 @@ public class Asiento {
     @ManyToOne
     @JoinColumn(name = "vielo_id")
     private Vuelo asientos_vuelo;
-
-    @OneToOne(mappedBy = "asiento_boleto")
-    private Boleto boleto;
-
 
 }
