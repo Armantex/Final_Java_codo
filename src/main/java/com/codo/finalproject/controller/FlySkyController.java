@@ -25,5 +25,5 @@ public class FlySkyController {
     public ResponseEntity<?>obtenerInformacionDeCliente(@PathVariable Long idCliente){
         return new ResponseEntity<>(null,HttpStatus.OK);
     }
-
+    
 }
