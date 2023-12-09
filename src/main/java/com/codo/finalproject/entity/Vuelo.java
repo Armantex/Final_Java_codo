@@ -27,7 +27,7 @@ public class Vuelo {
     private String opcionesConexion;
     private Boolean isFull;
     private short espacioDisponible;
-    private Aerolineas aerolinea;
+    private String aerolinea;
 
     @OneToOne(mappedBy = "vuelo_reserva")
     private Reserva reserva;
