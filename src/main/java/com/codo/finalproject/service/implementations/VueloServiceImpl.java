@@ -34,11 +34,11 @@ public class VueloServiceImpl implements IVueloService {
     }
 
     private void vueloGenerico(){
-        LocalDateTime time1 = LocalDateTime.now();
+        //LocalDateTime time1 = LocalDateTime.now();
         LocalDateTime time2 = LocalDateTime.of(2025,10,2,14,50,0);
-        Vuelo vuelo = new Vuelo(1L,time1,time2,"Ezeiza","Madrid",80000.0,"asd",false,(short) 30,Aerolineas.SKY,null,null);
+        Vuelo vuelo = new Vuelo(1L,null,time2,"Ezeiza","Madrid",80000.0,"asd",false,(short) 30,Aerolineas.SKY.toString(),null,null);
         vueloRepository.save(vuelo);
-        Vuelo vuelo2 = new Vuelo(2L,time1,time2,"Cordoba","Bariloche", 30000.0,"asd",true, (short) 0,Aerolineas.AEROLINEASARG,null,null);
+        Vuelo vuelo2 = new Vuelo(2L,null,time2,"Cordoba","Bariloche", 30000.0,"asd",true, (short) 0,Aerolineas.AEROLINEASARG.toString(),null,null);
         vueloRepository.save(vuelo2);
     }
 
