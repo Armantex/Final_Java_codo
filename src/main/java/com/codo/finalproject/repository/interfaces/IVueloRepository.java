@@ -9,10 +9,12 @@ import java.util.List;
 
 @Repository
 public interface IVueloRepository extends JpaRepository<Vuelo,Long> {
-    //List<Vuelo>FindByisFullFalse();
 
-    @Query(value = "SELECT * FROM flysky.vuelo WHERE is_full = 0",nativeQuery = true)
-    List<Vuelo>findByNotEmpty();
+
+
+    List<Vuelo> findByIsFullFalse();
+
+
 
 
 

@@ -26,7 +26,7 @@ public class VueloServiceImpl implements IVueloService {
     @Override
     public List<VueloDto> buscarDisponibles() {
         ModelMapper mapper = new ModelMapper();
-        List<Vuelo> vuelosEnt = vueloRepository.findByNotEmpty();
+        List<Vuelo> vuelosEnt = vueloRepository.findByIsFullFalse();
         if(vuelosEnt.isEmpty())throw new NoFlightsAvailableException("No se encontraron vuelos disponibles.");
         List<VueloDto> vueloDto = new ArrayList<>();
         vuelosEnt.stream().forEach(v -> vueloDto.add((mapper.map(v, VueloDto.class))));
