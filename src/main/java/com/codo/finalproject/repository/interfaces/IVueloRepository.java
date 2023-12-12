@@ -15,5 +15,4 @@ public interface IVueloRepository extends JpaRepository<Vuelo,Long> {
     List<Vuelo>findByNotEmpty();
 
 
-
 }

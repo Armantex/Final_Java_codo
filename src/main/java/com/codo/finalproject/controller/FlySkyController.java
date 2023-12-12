@@ -1,4 +1,5 @@
 package com.codo.finalproject.controller;
+import com.codo.finalproject.dto.request.idUsuarioDto;
 import com.codo.finalproject.service.interfaces.IVueloService;
 import com.codo.finalproject.service.interfaces.IReservaService;
 import org.springframework.http.HttpStatus;
@@ -9,9 +10,11 @@ import org.springframework.web.bind.annotation.*;
 public class FlySkyController {
 
     IVueloService vueloService;
+    IReservaService reservaService;
 
-    public FlySkyController(IVueloService vueloService) {
+    public FlySkyController(IVueloService vueloService , IReservaService reservaService ) {
         this.vueloService = vueloService;
+        this.reservaService = reservaService;
     }
 
     //usuarioService
@@ -24,7 +27,7 @@ public class FlySkyController {
     @GetMapping("/getInfo/Cliente/{idCliente}") // matias
     //User Story 4: Como agente de ventas, quiero poder acceder al historial de reservas y preferencias de viaje de un cliente
     public ResponseEntity<?>obtenerHistorialReserva(@PathVariable Long idCliente){
-        return new ResponseEntity<>(service.historialReserva(new idUsuarioDto(idCliente)),HttpStatus.OK);
+        return new ResponseEntity<>(reservaService.historialReserva(idCliente),HttpStatus.OK);
     }
     @GetMapping("/getInfo/Cliente/{idCliente}") // matias
     //User Story 4: Como agente de ventas, quiero poder acceder al historial de reservas y preferencias de viaje de un cliente

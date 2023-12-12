@@ -4,6 +4,7 @@ import com.codo.finalproject.dto.request.PagoDto;
 import com.codo.finalproject.dto.request.ReservaDto;
 import com.codo.finalproject.dto.request.VueloDto;
 import com.codo.finalproject.dto.response.ResponseDto;
+import com.codo.finalproject.dto.request.idUsuarioDto;
 import com.codo.finalproject.entity.Comprobante;
 import com.codo.finalproject.entity.Reserva;
 import com.codo.finalproject.exception.ReservaNotFoundException;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.codo.finalproject.exception.ReservaNotFoundException;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ReservaServiceImp implements IReservaService {
@@ -46,8 +48,8 @@ public class ReservaServiceImp implements IReservaService {
     }
 
     @Override
-    public ResponseDto historialReserva(idUsuarioDto idUsuario) {
-    List<Reserva> listaRepo = reservaRepository.findByUser(idUsuario.getid());
+    public ResponseDto historialReserva(Long idUsuario) {
+        List<Reserva> listaRepo = reservaRepository.findAllById(idUsuario);
 
         if(listaRepo.isEmpty()){
             throw new ReservaNotFoundException("No se encontró ninguna reserva.");
