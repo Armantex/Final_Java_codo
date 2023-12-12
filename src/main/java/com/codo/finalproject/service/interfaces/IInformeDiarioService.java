@@ -6,6 +6,6 @@ import java.time.LocalDate;
 
 public interface IInformeDiarioService {
 
-    public int cantidadDeVentasAlDia (LocalDate fecha);
-    public double recaudacionDiaria (LocalDate fecha);
+    public Integer cantidadDeVentasAlDia (LocalDate fecha);
+    public Double recaudacionDiaria (LocalDate fecha);
 }

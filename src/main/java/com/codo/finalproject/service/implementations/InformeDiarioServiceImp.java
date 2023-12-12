@@ -23,7 +23,7 @@ public class InformeDiarioServiceImp implements IInformeDiarioService {
 
     private List<Reserva> listaReserva;
     @Override
-    public int cantidadDeVentasAlDia(LocalDate fecha) {
+    public Integer cantidadDeVentasAlDia(LocalDate fecha) {
         return
                 listaReserva.stream()
                 .filter(reserva -> reserva.getFechaViaje().equals(fecha))
@@ -31,14 +31,11 @@ public class InformeDiarioServiceImp implements IInformeDiarioService {
         //Faltaría setearle ese valor al DTO y luego a la entidad... pero tengo que reveer el tema del mapped..
             }
 
-    public double recaudacionDiaria (LocalDate fecha){
+    public Double recaudacionDiaria (LocalDate fecha){
         return listaReserva.stream()
                 .filter ( reserva-> reserva.getFechaViaje().equals(fecha))
-                .mapToDouble(reserva::getComprobante_reserva.getPrecio) // esto no me deja hacerlo, pero es lo que necesito para llegar al precio de esa reserva
-                // Utiliza mapToDouble para obtener un DoubleStream
-                .sum();  // Suma todos los montos
-    }
-    }
+                .mapToDouble(r -> r.getComprobante_reserva().getMonto())
+                .sum();
     }
 
 }

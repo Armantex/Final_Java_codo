@@ -11,6 +11,6 @@ import java.time.LocalDate;
 @Data
 public class InformeDiarioDto {
     private Integer cantidadDeVentasDelDia;
-    private double ingresos;
+    private Double ingresos;
     private LocalDate fecha;
 }
