@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @Data
 public class InformeDiarioDto {
-    private Integer ventasDelDia;
-    private BigDecimal ingresos;
+    private Integer cantidadDeVentasDelDia;
+    private double ingresos;
     private LocalDate fecha;
 }

@@ -23,6 +23,6 @@ public class InformeDiario {
 
     private LocalDate fecha;
     private Integer cantidadDeVuelosPorDia;
-    private BigDecimal montoRecaudadoDelDia;
-    private String destinoFrecuente;
+    private double ingresos;
+
 }
