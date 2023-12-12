@@ -6,11 +6,16 @@ import com.codo.finalproject.dto.request.VueloDto;
 import com.codo.finalproject.dto.response.ResponseDto;
 import com.codo.finalproject.entity.Comprobante;
 import com.codo.finalproject.entity.Reserva;
+import com.codo.finalproject.exception.ReservaNotFoundException;
 import com.codo.finalproject.repository.interfaces.IComprobanteRepository;
 import com.codo.finalproject.repository.interfaces.IReservaRepository;
 import com.codo.finalproject.service.interfaces.IReservaService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
+import com.codo.finalproject.exception.ReservaNotFoundException;
+
+import java.util.List;
+
 @Service
 public class ReservaServiceImp implements IReservaService {
     private final IReservaRepository reservaRepository;
@@ -40,6 +45,17 @@ public class ReservaServiceImp implements IReservaService {
         return new ResponseDto("Tu pago fue rechazado");
     }
 
+    @Override
+    public ResponseDto historialReserva(idUsuarioDto idUsuario) {
+    List<Reserva> listaRepo = reservaRepository.findByUser(idUsuario.getid());
+
+        if(listaRepo.isEmpty()){
+            throw new ReservaNotFoundException("No se encontró ninguna reserva.");
+        }
+        return listaRepo.stream()
+                .map(reserva -> new ReservaDto(reserva.getfechaViaje(),reserva.getComprobante(), reserva.getUsuario()))
+                .toList();
+    }
 
 
 }

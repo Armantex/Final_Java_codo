@@ -11,5 +11,5 @@ import java.util.List;
 public interface IReservaService {
     ResponseDto crearReserva(ReservaDto reserva);
     ResponseDto pagar(PagoDto pagoDto); // falta saber que le pongo de argumento
-
+    ResponseDto historialReserva(idUsuarioDto idUsuario);
 }
