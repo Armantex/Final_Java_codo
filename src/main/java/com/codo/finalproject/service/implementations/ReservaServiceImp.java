@@ -4,10 +4,13 @@ import com.codo.finalproject.dto.request.PagoDto;
 import com.codo.finalproject.dto.request.ReservaDto;
 import com.codo.finalproject.dto.request.VueloDto;
 import com.codo.finalproject.dto.response.ResponseDto;
+import com.codo.finalproject.dto.response.HistorialReservaPorUsuarioDto;
+import com.codo.finalproject.dto.response.TopDestinoDto;
 import com.codo.finalproject.dto.request.idUsuarioDto;
 import com.codo.finalproject.entity.Comprobante;
 import com.codo.finalproject.entity.Reserva;
 import com.codo.finalproject.exception.ReservaNotFoundException;
+import com.codo.finalproject.exception.TopDestinoNotFoundException;
 import com.codo.finalproject.repository.interfaces.IComprobanteRepository;
 import com.codo.finalproject.repository.interfaces.IReservaRepository;
 import com.codo.finalproject.service.interfaces.IReservaService;
@@ -51,13 +54,28 @@ public class ReservaServiceImp implements IReservaService {
     public ResponseDto getHistorialReserva(Long idUsuario) {
         List<Reserva> listaRepo = reservaRepository.findByUsuarioId(idUsuario);
         if (listaRepo.isEmpty()) {
-            throw new EntityNotFoundException("No se encontró ninguna reserva para el usuario con ID: " + idUsuario);
+            throw new ReservaNotFoundException("No se encontró ninguna reserva para el usuario con ID: " + idUsuario);
         }
         return listaRepo.stream()
                 .map(reserva -> new ReservaDto(
-                        reserva.getFechaViaje(),
+                        reserva.getfechaViaje(),
                         reserva.getComprobante(),
+                        reserva.getPagada(),
                         reserva.getUsuario()))
-                .collect(Collectors.toList());
+                .toList();
     }
+
+    @Override
+    public List<TopDestinoDto> getTopDestinationsByUserId(Long userId) {
+        List<Object[]> list = reservaRepository.findTopDestinationsByUserId(userId);
+        if (list.isEmpty()) {
+            throw new TopDestinoNotFoundException("No se encontró ningun destino para el usuario con ID: " + idUsuario);
+        }
+        return  list.stream()
+                .map(dto -> new TopDestinoDto(
+                        dto.getDestino(),
+                        dto.getCantidadReservas()))
+                .toList();
+    }
+
 }
