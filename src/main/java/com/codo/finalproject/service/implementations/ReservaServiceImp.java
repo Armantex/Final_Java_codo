@@ -48,16 +48,16 @@ public class ReservaServiceImp implements IReservaService {
     }
 
     @Override
-    public ResponseDto historialReserva(Long idUsuario) {
-        List<Reserva> listaRepo = reservaRepository.findAllById(idUsuario);
-
-        if(listaRepo.isEmpty()){
-            throw new ReservaNotFoundException("No se encontró ninguna reserva.");
+    public ResponseDto getHistorialReserva(Long idUsuario) {
+        List<Reserva> listaRepo = reservaRepository.findByUsuarioId(idUsuario);
+        if (listaRepo.isEmpty()) {
+            throw new EntityNotFoundException("No se encontró ninguna reserva para el usuario con ID: " + idUsuario);
         }
         return listaRepo.stream()
-                .map(reserva -> new ReservaDto(reserva.getfechaViaje(),reserva.getComprobante(), reserva.getUsuario()))
-                .toList();
+                .map(reserva -> new ReservaDto(
+                        reserva.getFechaViaje(),
+                        reserva.getComprobante(),
+                        reserva.getUsuario()))
+                .collect(Collectors.toList());
     }
-
-
 }

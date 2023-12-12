@@ -27,7 +27,7 @@ public class FlySkyController {
     @GetMapping("/getInfo/Cliente/{idCliente}") // matias
     //User Story 4: Como agente de ventas, quiero poder acceder al historial de reservas y preferencias de viaje de un cliente
     public ResponseEntity<?>obtenerHistorialReserva(@PathVariable Long idCliente){
-        return new ResponseEntity<>(reservaService.historialReserva(idCliente),HttpStatus.OK);
+        return new ResponseEntity<>(reservaService.getHistorialReserva(idCliente),HttpStatus.OK);
     }
     @GetMapping("/getInfo/Cliente/{idCliente}") // matias
     //User Story 4: Como agente de ventas, quiero poder acceder al historial de reservas y preferencias de viaje de un cliente
