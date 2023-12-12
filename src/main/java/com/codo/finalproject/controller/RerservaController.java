@@ -24,11 +24,4 @@ public class RerservaController {
         return new ResponseEntity<>(service.pagar(pagoDto),HttpStatus.OK); // falta saber que le pongo de argumento
     }
 
-
-    @PostMapping("/reserva/{id}") // misael
-    //UserStory1 "...para poder elegir el vuelo que mejor se adapte a mis necesidades."
-    //Se obtienen todos los vuelos disponibles y su id, el usuario elige por id que vuelo selecciona para su compra
-    public ResponseEntity<?>realizarCompraPorId(@PathVariable Long id){
-        return new ResponseEntity<>(null,HttpStatus.OK);
-    }
 }

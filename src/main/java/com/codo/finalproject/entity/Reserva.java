@@ -19,18 +19,23 @@ public class Reserva {
     private LocalDate fechaViaje;
     private Boolean Pagada;
 
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "comprobante_id")
     private Comprobante comprobante_reserva;
 
-
     @OneToMany(mappedBy = "pasajeros_reserva")
     private Set<Pasajero> pasajeros;
+
+    @ManyToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario reservas_usuario;
 
     @OneToMany(mappedBy = "asientos_reserva")
     private Set<Asiento> asientos;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "usuario_id")
-    private Usuario usuario_reserva;
+    @JoinColumn(name = "vuelo_id")
+    private Vuelo vuelo_reserva;
+
 }

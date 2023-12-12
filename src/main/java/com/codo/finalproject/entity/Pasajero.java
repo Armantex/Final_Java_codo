@@ -2,7 +2,6 @@ package com.codo.finalproject.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.Set;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -14,7 +13,6 @@ public class Pasajero {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String nombre;
-    private String apellido;
 
     @ManyToOne
     @JoinColumn(name = "reserva_id")

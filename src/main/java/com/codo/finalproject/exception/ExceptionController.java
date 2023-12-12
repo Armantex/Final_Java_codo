@@ -9,6 +9,11 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @ControllerAdvice
 public class ExceptionController {
 
+    @ExceptionHandler(NoFlightsAvailableException.class)
+    public ResponseEntity<?>noHayVuelosDisponibles(NoFlightsAvailableException ex){
+        ErrorDto err = new ErrorDto(404,ex.getMessage());
+        return new ResponseEntity<>(err,HttpStatus.NOT_FOUND);
+    }
     @ExceptionHandler(PersonaNotFoundException.class)
     public ResponseEntity<?> personaNotFound(PersonaNotFoundException ex){
         ErrorDto err = new ErrorDto(404,ex.getMessage());
