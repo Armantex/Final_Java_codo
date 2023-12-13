@@ -1,20 +1,20 @@
 package com.codo.finalproject.dto.response;
 
-import com.codo.finalproject.dto.request.PasajeroDto;
-import com.codo.finalproject.entity.Asiento;
+import com.codo.finalproject.entity.Comprobante;
 import com.codo.finalproject.entity.Usuario;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import java.time.LocalDate;
-import java.util.List;
+
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Data
 public class HistorialReservaPorUsuarioDto {
     LocalDate fechaViaje;
     Boolean Pagada;
     Usuario usuario;
-    Integer Comprobante;
+    Comprobante Comprobante;
 
 }
