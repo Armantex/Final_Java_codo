@@ -27,4 +27,15 @@ public class ReservaServiceTest {
         ResponseDto respuestaC = new ResponseDto("Tu pago fue rechazado");
         assertEquals(respuestaA,respuestaC);
     }
+    @Test
+    void noSeEncontroReservaOkTest(){
+        //arrange
+        ErrorDto body = new ErrorDto(404,"Test Msg");
+        ReservaNotFoundException argumentoSut = new ReservaNotFoundException("Test Msg");
+        ResponseEntity<?> expected = new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
+        //act
+        ResponseEntity<?> actual = exceptionController.noSeEncontroReserva(argumentoSut);
+        //assert
+        assertEquals(expected,actual);
+    }
 }

@@ -20,6 +20,7 @@ import com.codo.finalproject.exception.ReservaNotFoundException;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.TreeMap;
 
 @Service
 public class ReservaServiceImp implements IReservaService {
@@ -77,5 +78,39 @@ public class ReservaServiceImp implements IReservaService {
                         dto.getCantidadReservas()))
                 .toList();
     }
+    public List<TopDestinoDto> getTopDestinationByUser(Long userId){
+        int rankingSize = 3; //TODO: Agregar variable al endpoint
 
+        List<Reserva> reservas = reservaRepository.findAllById(Collections.singleton(userId));
+        String username = usuarioRepository.findById(userId).orElseThrow().getNombre();
+        if (reservas.isEmpty()) throw new TopDestinoNotFoundException("No se encontro ningun destino para el usuario: "+ username);
+        TreeMap<String,Long> destinos = new TreeMap<>();
+        reservas.stream().map(r -> r.getVuelo_reserva().getAeropuertoDestino()).forEach(
+                v -> {
+                    if(destinos.containsKey(v)) {
+                        destinos.put(v, destinos.get(v) + 1);
+                    }else {
+                        destinos.put(v, 1L);
+                    }
+                }
+        );
+
+        return rankingDestinosPopularesCalc(destinos,rankingSize);
+    }
+
+    private List<TopDestinoDto> rankingDestinosPopularesCalc(TreeMap<String,Long> lista, int rankingSize){
+        List<TopDestinoDto> destinoDtoList = new ArrayList<>();
+        if(rankingSize <= 0)return destinoDtoList;
+        while (rankingSize != 0){
+            Long max = Collections.max(lista.values());
+            lista.forEach((s,l)->{
+                if(l.equals(max)){
+                    destinoDtoList.add(new TopDestinoDto(s,l));
+                    lista.remove(s,l);
+                }
+            });
+            rankingSize--;
+        }
+        return destinoDtoList;
+    }
 }

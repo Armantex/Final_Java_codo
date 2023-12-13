@@ -20,4 +20,7 @@ public interface IReservaRepository extends JpaRepository<Reserva,Long> {
             "LIMIT 3", nativeQuery = true)
     List<Object[]> findTopDestinationsByUserId(@Param("userId") Long userId);
 
+
+
 }
+
