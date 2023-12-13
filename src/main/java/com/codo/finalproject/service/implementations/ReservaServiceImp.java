@@ -69,7 +69,7 @@ public class ReservaServiceImp implements IReservaService {
     public List<TopDestinoDto> getTopDestinationsByUserId(Long userId) {
         List<Object[]> list = reservaRepository.findTopDestinationsByUserId(userId);
         if (list.isEmpty()) {
-            throw new TopDestinoNotFoundException("No se encontró ningun destino para el usuario con ID: " + idUsuario);
+            throw new TopDestinoNotFoundException("No se encontró ningun destino para el usuario con ID: " + userId);
         }
         return  list.stream()
                 .map(dto -> new TopDestinoDto(
