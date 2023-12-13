@@ -2,8 +2,9 @@ package com.codo.finalproject.service.implementations;
 
 import com.codo.finalproject.dto.response.ResponseDto;
 import com.codo.finalproject.entity.*;
-import com.codo.finalproject.repository.interfaces.IVueloRepository;
+import com.codo.finalproject.repository.interfaces.*;
 import com.codo.finalproject.service.interfaces.IExtrasService;
+import com.codo.finalproject.service.interfaces.IReservaService;
 import com.codo.finalproject.util.Aerolineas;
 import com.codo.finalproject.util.MetodoPago;
 import com.codo.finalproject.util.Rol;
@@ -18,9 +19,19 @@ import java.util.*;
 public class ExtrasServiceImpl implements IExtrasService {
 
     IVueloRepository vueloRepository;
+    IAsientoRepository iAsientoRepository;
+    IComprobanteRepository iComprobanteRepository;
+    IPasajeroRepository iPasajeroRepository;
+    IReservaRepository iReservaRepository;
+    IUsuarioRepository iUsuarioRepository;
 
-    public ExtrasServiceImpl(IVueloRepository vueloRepository) {
+    public ExtrasServiceImpl(IVueloRepository vueloRepository, IAsientoRepository iAsientoRepository, IComprobanteRepository iComprobanteRepository, IPasajeroRepository iPasajeroRepository, IReservaRepository iReservaRepository, IUsuarioRepository iUsuarioRepository) {
         this.vueloRepository = vueloRepository;
+        this.iAsientoRepository = iAsientoRepository;
+        this.iComprobanteRepository = iComprobanteRepository;
+        this.iPasajeroRepository = iPasajeroRepository;
+        this.iReservaRepository = iReservaRepository;
+        this.iUsuarioRepository = iUsuarioRepository;
     }
 
     @Override
@@ -29,11 +40,7 @@ public class ExtrasServiceImpl implements IExtrasService {
         Usuario[] usuarios = usuarioDataGen(cantidad+1);
         System.out.println(Arrays.toString(usuarios));
         List<Reserva> reservas = reservaAndComprobanteDataGen(cantidad+1,usuarios);
-        System.out.println("AAAAAAAAAAAAAAA\n"+reservas.size());
-        System.out.println("\nAAAAA\n" + reservas.iterator().next().getId());
-        System.out.println("\nAAAAA\n" + reservas.listIterator().next().getId());
         vueloDataGen(cantidad,reservas);
-
 
         return new ResponseDto("La carga de datos se completo correctamente;");
     }
@@ -61,13 +68,12 @@ public class ExtrasServiceImpl implements IExtrasService {
         Set<Pasajero> setPasajeros = new HashSet<>();
         List<Reserva> reservaList = new ArrayList<>();
         for (Long i = 1L; i < cantidad; i++) {
-            Asiento asiento = new Asiento();
             Pasajero pasajero = new Pasajero();
             pasajero.setId(i);
             pasajero.setNombre("Nombre Generico " + i);
             setPasajeros.add(pasajero);
 
-
+            iPasajeroRepository.save(pasajero);
         }
 
         for (Long i = 1L; i < cantidad; i++) {
@@ -81,16 +87,19 @@ public class ExtrasServiceImpl implements IExtrasService {
             Comprobante comprobante = new Comprobante(id, metodoPago, monto, codigo, null);
 
 
-            reserva.setId(id);
+            //reserva.setId(id);
             reserva.setFechaViaje(LocalDate.of(2023, Math.toIntExact(i), Math.toIntExact(i)));
             reserva.setPagada(true);
             reserva.setPasajeros(setPasajeros);
             reserva.setReservas_usuario(users[Math.toIntExact(i-1)]);
             reserva.setAsientos(setAsientoGen(cantidad));
+            Usuario userSave = users[Math.toIntExact(i-1)];
 
-
+            iUsuarioRepository.save(userSave);
             comprobante.setReserva(reserva);
             reservaList.add(reserva);
+            iReservaRepository.save(reserva); //CascadeType.MERGE
+            iComprobanteRepository.save(comprobante);
         }
         return reservaList;
     }
@@ -100,6 +109,7 @@ public class ExtrasServiceImpl implements IExtrasService {
                 Asiento asiento = new Asiento();
                 asiento.setDisponibilidad(true);
                 setAsientos.add(asiento);
+                iAsientoRepository.save(asiento);
             }
             return setAsientos;
     }
