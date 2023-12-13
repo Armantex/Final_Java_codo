@@ -24,10 +24,10 @@ public class Reserva {
     @JoinColumn(name = "comprobante_id")
     private Comprobante comprobante_reserva;
 
-    @OneToMany(mappedBy = "pasajeros_reserva",cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "pasajeros_reserva",cascade = CascadeType.MERGE)
     private Set<Pasajero> pasajeros;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "usuario_id")
     private Usuario reservas_usuario;
 
