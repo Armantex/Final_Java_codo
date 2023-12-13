@@ -20,7 +20,7 @@ public class VueloServiceImpl implements IVueloService {
 
     public VueloServiceImpl(IVueloRepository vueloRepository) {
         this.vueloRepository = vueloRepository;
-        vueloGenerico();
+        //vueloGenerico();
     }
 
     @Override
