@@ -29,7 +29,8 @@ public class Vuelo {
     private short espacioDisponible;
     private String aerolinea;
 
-    @OneToOne(mappedBy = "vuelo_reserva")
+
+    @OneToOne(mappedBy = "vuelo_reserva",cascade = CascadeType.ALL)
     private Reserva reserva;
 
     @OneToMany(mappedBy = "asientos_vuelo")

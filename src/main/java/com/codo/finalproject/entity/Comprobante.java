@@ -18,7 +18,7 @@ public class Comprobante {
     @Column(unique = true)
     private Integer codigoComprobante;
 
-    @OneToOne(mappedBy = "comprobante_reserva")
+    @OneToOne(mappedBy = "comprobante_reserva",cascade=CascadeType.ALL)
     private Reserva reserva;
 
 
