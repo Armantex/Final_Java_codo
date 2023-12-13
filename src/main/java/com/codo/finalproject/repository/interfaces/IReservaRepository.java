@@ -5,12 +5,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-
 import java.util.List;
 
 @Repository
 public interface IReservaRepository extends JpaRepository<Reserva,Long> {
-    List<Reserva> findByUsuarioId(Long idUsuario);
+    List<Reserva> findAllByUsuarioId(Long idUsuario);
 
     @Query(value = "SELECT vuelo_reserva.aeropuertoDestino, COUNT(vuelo_reserva.aeropuertoDestino) AS destinationCount " +
             "FROM Reserva " +

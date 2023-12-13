@@ -2,6 +2,7 @@ package com.codo.finalproject.service.implementations;
 
 import com.codo.finalproject.dto.request.PagoDto;
 import com.codo.finalproject.dto.request.ReservaDto;
+import com.codo.finalproject.dto.response.HistorialReservaPorUsuarioDto;
 import com.codo.finalproject.dto.response.ResponseDto;
 import com.codo.finalproject.dto.response.TopDestinoDto;
 import com.codo.finalproject.entity.Comprobante;
@@ -50,23 +51,23 @@ public class ReservaServiceImp implements IReservaService {
     }
 
     @Override
-    public ResponseDto getHistorialReserva(Long idUsuario) {
-        List<Reserva> listaRepo = reservaRepository.findByUsuarioId(idUsuario);
-        if (listaRepo.isEmpty()) {
-            throw new ReservaNotFoundException("No se encontró ninguna reserva para el usuario con ID: " + idUsuario);
-        }
+    public List<HistorialReservaPorUsuarioDto> getHistorialReserva(Long idUsuario) {
+        List<Reserva> listaRepo = reservaRepository.findAllByUsuarioId(idUsuario);
+        String username = usuarioRepository.findById(idUsuario).orElseThrow().getNombre();
+        if (listaRepo.isEmpty())
+            throw new ReservaNotFoundException("No se encontró ninguna reserva para el usuario "+ username + " con ID: " + idUsuario);
         return listaRepo.stream()
-                .map(reserva -> new ReservaDto(
-                        reserva.getfechaViaje(),
-                        reserva.getComprobante(),
+                .map(reserva -> new HistorialReservaPorUsuarioDto(
+                        reserva.getFechaViaje(),
                         reserva.getPagada(),
-                        reserva.getUsuario()))
-                .toList();
+                        reserva.getReservas_usuario(),
+                        reserva.getComprobante_reserva())
+                ).toList();
     }
 
     @Override
     public List<TopDestinoDto> getTopDestinationsByUserId(Long userId) {
-        List<Object[]> list = reservaRepository.findTopDestinationsByUserId(userId);
+        /*List<Object[]> list = reservaRepository.findTopDestinationsByUserId(userId);
         if (list.isEmpty()) {
             throw new TopDestinoNotFoundException("No se encontró ningun destino para el usuario con ID: " + idUsuario);
         }
@@ -74,7 +75,8 @@ public class ReservaServiceImp implements IReservaService {
                 .map(dto -> new TopDestinoDto(
                         dto.getDestino(),
                         dto.getCantidadReservas()))
-                .toList();
+                .toList();*/
+        return null;
     }
 
     public List<TopDestinoDto> getTopDestinationByUser(Long userId){
