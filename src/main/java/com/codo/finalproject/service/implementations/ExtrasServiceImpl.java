@@ -4,13 +4,10 @@ import com.codo.finalproject.dto.response.ResponseDto;
 import com.codo.finalproject.entity.*;
 import com.codo.finalproject.repository.interfaces.*;
 import com.codo.finalproject.service.interfaces.IExtrasService;
-import com.codo.finalproject.service.interfaces.IReservaService;
 import com.codo.finalproject.util.Aerolineas;
 import com.codo.finalproject.util.MetodoPago;
 import com.codo.finalproject.util.Rol;
-import org.hibernate.validator.constraints.ParameterScriptAssert;
 import org.springframework.stereotype.Service;
-
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
@@ -18,7 +15,7 @@ import java.util.*;
 @Service
 public class ExtrasServiceImpl implements IExtrasService {
 
-    IVueloRepository vueloRepository;
+    IVueloRepository ivueloRepository;
     IAsientoRepository iAsientoRepository;
     IComprobanteRepository iComprobanteRepository;
     IPasajeroRepository iPasajeroRepository;
@@ -26,7 +23,7 @@ public class ExtrasServiceImpl implements IExtrasService {
     IUsuarioRepository iUsuarioRepository;
 
     public ExtrasServiceImpl(IVueloRepository vueloRepository, IAsientoRepository iAsientoRepository, IComprobanteRepository iComprobanteRepository, IPasajeroRepository iPasajeroRepository, IReservaRepository iReservaRepository, IUsuarioRepository iUsuarioRepository) {
-        this.vueloRepository = vueloRepository;
+        this.ivueloRepository = vueloRepository;
         this.iAsientoRepository = iAsientoRepository;
         this.iComprobanteRepository = iComprobanteRepository;
         this.iPasajeroRepository = iPasajeroRepository;
@@ -36,123 +33,153 @@ public class ExtrasServiceImpl implements IExtrasService {
 
     @Override
     public ResponseDto cargarBaseDeDatos(int cantidad) {
-        //cantidad = 12;
-        Usuario[] usuarios = usuarioDataGen(cantidad+1);
-        System.out.println(Arrays.toString(usuarios));
-        List<Reserva> reservas = reservaAndComprobanteDataGen(cantidad+1,usuarios);
-        vueloDataGen(cantidad,reservas);
-
-        return new ResponseDto("La carga de datos se completo correctamente;");
+        cantidad = cantidad + 1;
+        List<Usuario> usuarios = usuarioDataGen(cantidad);
+        List<Comprobante> comprobantes = comprobanteDataGen(cantidad);
+        List<Vuelo> vuelos = vueloDataGen(cantidad);
+        List<Reserva> reservas = reservaDataGen(cantidad, usuarios, vuelos, comprobantes);
+        List<Pasajero> pasajeros = pasajeroDataGen(cantidad * 2, reservas);
+        asientoDataGen(cantidad * 30, reservas, vuelos, pasajeros);
+        return new ResponseDto("Se completo correctamente la ddbb");
     }
 
-    private Usuario[] usuarioDataGen(int cantidad){
-        Long id;
-        String nombre;
-        Integer telefono;
-        String domicilio;
-        String email;
-        Rol rol;
-        List<Usuario> list = new ArrayList<>();
-        for(Long i = 1L; i < cantidad; i++){
-            list.add(new Usuario(i,"Nombre Generico "+ i, (int) (i+100000),"Domicilio Generico "+i,"Email Generico "+i,Rol.C,null));
+    private List<Usuario> usuarioDataGen(int cantidad) {
+        List<Usuario> usuarios = new ArrayList<>();
+        for (long i = 1L; i < cantidad; i++) {
+            Usuario usuario = new Usuario();
+            usuario.setId(i);
+            usuario.setNombre("Nombre Generico " + i);
+            usuario.setRol(Rol.C);
+            usuario.setDomicilio("Domicilio Generico " + i);
+            usuario.setReservas(null);
+            usuario.setTelefono((int) (i + 100000));
+            usuario.setEmail("Email Generico " + i);
+            usuarios.add(usuario);
         }
-        return list.toArray(new Usuario[0]);
+        iUsuarioRepository.saveAll(usuarios);
+        return usuarios;
+    }
+    private List<Vuelo> vueloDataGen(int cantidad) {
+        List<Vuelo> vuelos = new ArrayList<>();
+        for (long i = 1L; i < cantidad; i++) {
+            Vuelo vuelo = new Vuelo();
+            vuelo.setId(i);
+            vuelo.setHorarioInicio(LocalDateTime.of(2023, Math.toIntExact(i), Math.toIntExact(i), Math.toIntExact(i), Math.toIntExact(i * 3), Math.toIntExact(i)));
+            vuelo.setHorarioFinal(LocalDateTime.of(2023, Math.toIntExact(i) + 1, Math.toIntExact(i) + 1, Math.toIntExact(i) + 1, Math.toIntExact(i * 3) + 1, Math.toIntExact(i) + 1));
+            vuelo.setAeropuertoOrigen("Aeroparque, Jorge Newbery");
+            vuelo.setAeropuertoDestino("Bariloche, Teniente Luis Candelaria");
+            vuelo.setPrecio(i * 99999.3);
+            vuelo.setOpcionesConexion("");
+            vuelo.setAerolinea(Aerolineas.AEROLINEASARG.toString());
+            if (i % 2 == 0) {
+                vuelo.setIsFull(false);
+                vuelo.setEspacioDisponible((short) (i * 7L));
+            } else {
+                vuelo.setIsFull(true);
+                vuelo.setEspacioDisponible((short) 0);
+            }
+            vuelos.add(vuelo);
+        }
+        ivueloRepository.saveAll(vuelos);
+        return vuelos;
+    }
+    private List<Comprobante> comprobanteDataGen(int cantidad) {
+        List<Comprobante> comprobantes = new ArrayList<>();
+        Random rand = new Random();
+        int maxC=1000, minC=500, maxM=2000, minM=1000;
+        for (long i = 1L; i < cantidad; i++) {
+            double monto = rand.nextDouble(maxM - minM + 1) + minM;
+            Comprobante comprobante = new Comprobante();
+            comprobante.setId(i);
+            comprobante.setMetodoPago(MetodoPago.TB);
+            comprobante.setCodigoComprobante(rand.nextInt(maxC - minC + 1) + minC);
+            comprobante.setMonto(Math.round(monto * 100)/100D);
+            comprobantes.add(comprobante);
+        }
+        iComprobanteRepository.saveAll(comprobantes);
+        return comprobantes;
     }
 
-
-    private List<Reserva> reservaAndComprobanteDataGen(int cantidad,Usuario[] users) {
-        Long id;
-        MetodoPago metodoPago;
-        Double monto;
-        Integer codigo;
-        Set<Pasajero> setPasajeros = new HashSet<>();
-        List<Reserva> reservaList = new ArrayList<>();
-        for (Long i = 1L; i < cantidad; i++) {
+    private List<Pasajero> pasajeroDataGen(int cantidad, List<Reserva> reservas){
+        List<Pasajero> pasajeros = new ArrayList<>();
+        Random rand = new Random();
+        int max = reservas.size(), min=0;
+        for (long i = 1L; i < cantidad; i++) {
+            int indexReservaRamdom = rand.nextInt(min, max);
             Pasajero pasajero = new Pasajero();
             pasajero.setId(i);
             pasajero.setNombre("Nombre Generico " + i);
-            setPasajeros.add(pasajero);
-
-            iPasajeroRepository.save(pasajero);
+            pasajero.setPasajeros_reserva(reservas.get(indexReservaRamdom));
+            pasajeros.add(pasajero);
         }
+        iPasajeroRepository.saveAll(pasajeros);
+        return pasajeros;
+    }
 
-        for (Long i = 1L; i < cantidad; i++) {
+    private List<Reserva> reservaDataGen(int cantidad, List<Usuario> usuarios, List<Vuelo> vuelos, List<Comprobante> comprobantes) {
+        List<Reserva> reservas = new ArrayList<>();
+        Random rand = new Random();
+        int max = usuarios.size(), min=0, maxV = vuelos.size(), minV=0;
+        List<Integer> shuffleNumber = new ArrayList<>();
+        for (int i = 0; i < comprobantes.size(); i++){
+            shuffleNumber.add(i);
+        }
+        Collections.shuffle(shuffleNumber);
 
-
+        for (long i = 1L; i < cantidad; i++) {
+            int indexUsuarioRamdom = rand.nextInt(min, max);
+            int indexVuelosRamdom = rand.nextInt(minV, maxV);
             Reserva reserva = new Reserva();
-            id = i;
-            metodoPago = MetodoPago.TB;
-            monto = i * 98545.3;
-            codigo = Math.toIntExact(i * 8888);
-            Comprobante comprobante = new Comprobante(id, metodoPago, monto, codigo, null);
-
-
-            //reserva.setId(id);
+            reserva.setId(i);
             reserva.setFechaViaje(LocalDate.of(2023, Math.toIntExact(i), Math.toIntExact(i)));
-            reserva.setPagada(true);
-            reserva.setPasajeros(setPasajeros);
-            reserva.setReservas_usuario(users[Math.toIntExact(i-1)]);
-            reserva.setAsientos(setAsientoGen(cantidad));
-            Usuario userSave = users[Math.toIntExact(i-1)];
-
-            iUsuarioRepository.save(userSave);
-            comprobante.setReserva(reserva);
-            reservaList.add(reserva);
-            iReservaRepository.save(reserva); //CascadeType.MERGE
-            iComprobanteRepository.save(comprobante);
+            reserva.setPagada(false);
+            reserva.setComprobante_reserva(comprobantes.get(shuffleNumber.get((int) i - 1)));
+            reserva.setReservas_usuario(usuarios.get(indexUsuarioRamdom));
+            reserva.setReservas_vuelo(vuelos.get(indexVuelosRamdom));
+            reservas.add(reserva);
         }
-        return reservaList;
+        iReservaRepository.saveAll(reservas);
+        return reservas;
     }
-        private Set<Asiento> setAsientoGen(int cantidad){
-            Set<Asiento> setAsientos = new HashSet<>();
-            for (Long i = 1L; i < cantidad; i++) {
-                Asiento asiento = new Asiento();
+
+    private void asientoDataGen(int cantidad, List<Reserva> reservas, List<Vuelo> vuelos, List<Pasajero> pasajeros) {
+        List<Asiento> asientos = new ArrayList<>();
+        Random rand = new Random();
+        int maxV = vuelos.size(), minV= 0;
+        List<Integer> indexReservasVuelos = new ArrayList<>();
+        List<Integer> indexVuelos = new ArrayList<>();
+        for(Reserva reserva : reservas){
+            for (Pasajero pasajero: pasajeros){
+                if (Objects.equals(pasajero.getPasajeros_reserva().getId(), reserva.getId())){
+                    indexVuelos.add((int) (long) reserva.getReservas_vuelo().getId() - 1);
+                    indexReservasVuelos.add((int)(long) reserva.getId() - 1);
+                }
+            }
+        }
+        for (int i = 0; i < cantidad - indexReservasVuelos.size(); i++){
+            indexVuelos.add(rand.nextInt(minV, maxV));
+        }
+        Collections.shuffle(indexVuelos);
+
+        for (long i = 1L; i < cantidad; i++) {
+            int numVuelo = indexVuelos.get((int) i - 1);
+            Reserva reservaInicial = reservas.get(numVuelo);
+            Asiento asiento = new Asiento();
+            asiento.setId(i);
+            if (indexReservasVuelos.contains(numVuelo)) {
+                asiento.setAsientos_reserva(reservaInicial);
+                asiento.setDisponibilidad(false);
+                indexReservasVuelos.remove(indexReservasVuelos.indexOf(numVuelo));
+            } else {
                 asiento.setDisponibilidad(true);
-                setAsientos.add(asiento);
-                iAsientoRepository.save(asiento);
-            }
-            return setAsientos;
-    }
-
-
-    //Generador de data de vuelos
-    private void vueloDataGen(int cantidad, List<Reserva> reservaList){
-        Long id;
-        LocalDateTime horaInicio;
-        LocalDateTime horaFinal;
-        String aeroOrigen;
-        String aeroDestino;
-        Double precio;
-        String opcionesConexion;
-        boolean isFull;
-        short espacioDisponible;
-        String aerolinea;
-        Reserva reserva;
-
-
-        for(Long i = 1L; i < cantidad; i++){
-
-            id = i;
-            horaInicio = LocalDateTime.of(2023, Math.toIntExact(i), Math.toIntExact(i), Math.toIntExact(i), Math.toIntExact(i * 3), Math.toIntExact(i));
-            horaFinal = LocalDateTime.of(2023, Math.toIntExact(i)+1, Math.toIntExact(i)+1, Math.toIntExact(i)+1, Math.toIntExact(i * 3)+1, Math.toIntExact(i)+1);
-            aeroOrigen = "Aeroparque, Jorge Newbery";
-            aeroDestino = "Bariloche, Teniente Luis Candelaria";
-            precio = i * 99999.3;
-            opcionesConexion = "";
-            aerolinea = Aerolineas.AEROLINEASARG.toString();
-            if(i % 2 == 0){
-                isFull = false;
-                espacioDisponible = (short) (i*7L);
-            }else {
-                isFull = true;
-                espacioDisponible = 0;
+                asiento.setAsientos_reserva(null);
             }
 
-
-            Vuelo vuelo = new Vuelo(id,horaInicio,horaFinal,aeroOrigen,aeroDestino,precio,opcionesConexion,isFull,espacioDisponible,aerolinea, reservaList.iterator().next(),setAsientoGen(cantidad));
-            vueloRepository.save(vuelo);
+            asiento.setAsientos_vuelo(vuelos.get(indexVuelos.get((int) i - 1)));
+            asientos.add(asiento);
         }
-
+        iAsientoRepository.saveAll(asientos);
 
     }
+
 }
