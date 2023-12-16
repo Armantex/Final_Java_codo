@@ -1,6 +1,5 @@
 package com.codo.finalproject.entity;
 
-import com.codo.finalproject.util.Aerolineas;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,12 +28,12 @@ public class Vuelo {
     private short espacioDisponible;
     private String aerolinea;
 
-    @OneToOne(mappedBy = "vuelo_reserva")
-    private Reserva reserva;
 
     @OneToMany(mappedBy = "asientos_vuelo")
     private Set<Asiento> asientos;
 
+    @OneToMany(mappedBy = "reservas_vuelo")
+    private Set<Reserva> reservas;
 
 
 }
