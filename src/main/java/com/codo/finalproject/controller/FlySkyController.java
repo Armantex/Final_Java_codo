@@ -32,6 +32,7 @@ public class FlySkyController {
     @GetMapping("/getInfo/Cliente/{idCliente}") // matias
     //User Story 4.2: Como agente de ventas, quiero poder acceder a preferencias de viaje de un cliente
     public ResponseEntity<?>obtenerInformacionDeCliente(@PathVariable Long idCliente){
-        return new ResponseEntity<>(reservaService.getTopDestinationsByUserId(idCliente),HttpStatus.OK);    }
+        return new ResponseEntity<>(reservaService.getTopDestinationByUser(idCliente),HttpStatus.OK);
+    }
     
 }

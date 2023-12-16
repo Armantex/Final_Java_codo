@@ -12,5 +12,5 @@ public interface IReservaService {
     ResponseDto crearReserva(ReservaDto reserva);
     ResponseDto pagar(PagoDto pagoDto); // falta saber que le pongo de argumento
     List<HistorialReservaPorUsuarioDto> getHistorialReserva(Long idUsuario);
-    List<TopDestinoDto> getTopDestinationsByUserId(Long userId);
+    List<TopDestinoDto> getTopDestinationByUser(Long userId);
 }

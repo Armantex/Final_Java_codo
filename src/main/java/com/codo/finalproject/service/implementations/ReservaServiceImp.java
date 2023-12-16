@@ -65,7 +65,7 @@ public class ReservaServiceImp implements IReservaService {
                 ).toList();
     }
 
-    @Override
+
     public List<TopDestinoDto> getTopDestinationsByUserId(Long userId) {
         /*List<Object[]> list = reservaRepository.findTopDestinationsByUserId(userId);
         if (list.isEmpty()) {
@@ -78,7 +78,7 @@ public class ReservaServiceImp implements IReservaService {
                 .toList();*/
         return null;
     }
-
+    @Override
     public List<TopDestinoDto> getTopDestinationByUser(Long userId){
         int rankingSize = 3; //TODO: Agregar variable al endpoint
 
