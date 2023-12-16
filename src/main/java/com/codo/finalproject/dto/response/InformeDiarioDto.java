@@ -7,6 +7,7 @@ import org.modelmapper.internal.bytebuddy.asm.Advice;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 
 @NoArgsConstructor
 @Data
@@ -14,5 +15,5 @@ public class InformeDiarioDto {
     private Integer cantidadDeVentasDelDia;
     private Double ingresos;
     private LocalDate fecha;
-    private List<String> destinosPopulares;
+    private Map<String, Long> destinosPopulares;
 }

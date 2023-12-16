@@ -35,9 +35,9 @@ public class ReportesController {
         return new ResponseEntity<>(null,HttpStatus.OK);
     }
 
-    @GetMapping("/getInfo/InformeDiario/DestinoPopular") // Misael
+    @GetMapping("/informeDiario") // Misael
     public ResponseEntity<?>obtenerDestinoPopular(@RequestParam("fecha") LocalDate fecha){
-        return new ResponseEntity<>(informeDiarioService.getDestinosPopulares(fecha),HttpStatus.OK);
+        return new ResponseEntity<>(informeDiarioService.generarInformeDiario(fecha),HttpStatus.OK);
     }
 
     @GetMapping("/getInfo/InformeDiario/TendenciaReservas") // carla
