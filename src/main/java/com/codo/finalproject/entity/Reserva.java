@@ -17,7 +17,7 @@ public class Reserva {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDate fechaViaje;
-    private Boolean Pagada;
+    private Boolean pagada;
 
 
     @OneToOne(cascade = CascadeType.ALL)
