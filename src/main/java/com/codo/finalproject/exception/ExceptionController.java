@@ -25,4 +25,10 @@ public class ExceptionController {
         ErrorDto err = new ErrorDto(404,ex.getMessage());
         return new ResponseEntity<>(err, HttpStatus.BAD_REQUEST);
     }
+
+    @ExceptionHandler(NoReservasForReporteException.class)
+    public ResponseEntity<?> noReservaForReporte(NoReservasForReporteException ex){
+        ErrorDto err = new ErrorDto(404,ex.getMessage());
+        return new ResponseEntity<>(err, HttpStatus.NOT_FOUND);
+    }
 }
