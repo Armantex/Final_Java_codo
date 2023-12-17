@@ -17,5 +17,4 @@ public interface IVueloRepository extends JpaRepository<Vuelo,Long> {
 
 
 
-
 }
