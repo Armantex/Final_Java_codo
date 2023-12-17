@@ -3,13 +3,10 @@ package com.codo.finalproject.service.implementations;
 import com.codo.finalproject.dto.request.PagoDto;
 import com.codo.finalproject.dto.request.ReservaDto;
 
-import com.codo.finalproject.dto.response.HistorialReservaPorUsuarioDto;
-
 import com.codo.finalproject.dto.response.ResponseDto;
 import com.codo.finalproject.dto.response.TopDestinoDto;
 import com.codo.finalproject.entity.Comprobante;
 import com.codo.finalproject.entity.Reserva;
-import com.codo.finalproject.exception.ReservaNotFoundException;
 import com.codo.finalproject.exception.TopDestinoNotFoundException;
 import com.codo.finalproject.repository.interfaces.IComprobanteRepository;
 import com.codo.finalproject.repository.interfaces.IReservaRepository;
@@ -22,6 +19,7 @@ import org.springframework.stereotype.Service;
 import java.util.Objects;
 
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 
 
 @Service
@@ -78,7 +76,7 @@ public class ReservaServiceImp implements IReservaService {
 
     }
 
-    @Override
+   /* @Override
     public List<HistorialReservaPorUsuarioDto> getHistorialReserva(Long idUsuario) {
         List<Reserva> listaRepo = reservaRepository.findAllByUsuarioId(idUsuario);
         String username = usuarioRepository.findById(idUsuario).orElseThrow().getNombre();
@@ -91,7 +89,7 @@ public class ReservaServiceImp implements IReservaService {
                         reserva.getReservas_usuario(),
                         reserva.getComprobante_reserva())
                 ).toList();
-    }
+    }*/
 
 
     public List<TopDestinoDto> getTopDestinationsByUserId(Long userId) {
@@ -107,14 +105,13 @@ public class ReservaServiceImp implements IReservaService {
         return null;
     }
     @Override
-    public List<TopDestinoDto> getTopDestinationByUser(Long userId){
-        int rankingSize = 3; //TODO: Agregar variable al endpoint
-
+    public List<TopDestinoDto> getTopDestinationByUser(Long userId, int rankingSize){
         List<Reserva> reservas = reservaRepository.findAllById(Collections.singleton(userId));
         String username = usuarioRepository.findById(userId).orElseThrow().getNombre();
         if (reservas.isEmpty()) throw new TopDestinoNotFoundException("No se encontro ningun destino para el usuario: "+ username);
+
         TreeMap<String,Long>destinos = new TreeMap<>();
-        reservas.stream().map(r -> r.getVuelo_reserva().getAeropuertoDestino()).forEach(
+        reservas.stream().map(r -> r.getReservas_vuelo().getAeropuertoDestino()).forEach(
                 v -> {
                     if(destinos.containsKey(v)) {
                         destinos.put(v, destinos.get(v) + 1);
@@ -127,20 +124,28 @@ public class ReservaServiceImp implements IReservaService {
         return rankingDestinosPopularesCalc(destinos,rankingSize);
     }
 
-    private List<TopDestinoDto> rankingDestinosPopularesCalc(TreeMap<String,Long> lista, int rankingSize){
+    private List<TopDestinoDto> rankingDestinosPopularesCalc(TreeMap<String,Long> lista, int rankingSize) {
         List<TopDestinoDto> destinoDtoList = new ArrayList<>();
-        if(rankingSize <= 0)return destinoDtoList;
-        while (rankingSize != 0){
-            Long max = Collections.max(lista.values());
-            lista.forEach((s,l)->{
-                if(l.equals(max)){
-                    destinoDtoList.add(new TopDestinoDto(s,l));
-                    lista.remove(s,l);
+        lista.put("Destino Generico 1", 2L);
+        lista.put("Destino Generico 2", 5L);
+        if (rankingSize <= 0) return destinoDtoList;
+        if (rankingSize > lista.size()) rankingSize = lista.size();
+        Long max = Collections.max(lista.values());
+
+        do {
+            Long entries = Collections.max(lista.values());
+            String destino = "";
+            for (Map.Entry<String, Long> entry : lista.entrySet()) {
+                if (Objects.equals(entries, entry.getValue())) {
+                    destino = entry.getKey();
                 }
-            });
+            }
+
+            destinoDtoList.add(new TopDestinoDto(destino,entries));
+            lista.remove(destino);
             rankingSize--;
-        }
-        return destinoDtoList;
+            }while (rankingSize != 0);
+            return destinoDtoList;
     }
 
 }

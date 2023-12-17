@@ -14,8 +14,8 @@ public interface IReservaRepository extends JpaRepository<Reserva,Long> {
     @Query(value = "SELECT * FROM reserva WHERE comprobante_id=?",nativeQuery = true)
     Reserva findByIdComprobante(Long idComprobante);
 
-    List<Reserva> findAllByUsuarioId(Long idUsuario);
-
+    //List<Reserva> findAllByUsuarioId(Long idUsuario);
+/*
     @Query(value = "SELECT vuelo_reserva.aeropuertoDestino, COUNT(vuelo_reserva.aeropuertoDestino) AS destinationCount " +
             "FROM Reserva " +
             "WHERE reservas_usuario_id = :userId " +
@@ -23,6 +23,6 @@ public interface IReservaRepository extends JpaRepository<Reserva,Long> {
             "ORDER BY destinationCount DESC " +
             "LIMIT 3", nativeQuery = true)
     List<Object[]> findTopDestinationsByUserId(@Param("userId") Long userId);
-
+*/
 }
 
