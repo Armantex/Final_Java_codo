@@ -132,7 +132,7 @@ public class ExtrasServiceImpl implements IExtrasService {
             Reserva reserva = new Reserva();
             reserva.setId(i);
             reserva.setFechaViaje(LocalDate.of(2023, Math.toIntExact(i), Math.toIntExact(i)));
-            reserva.setPagada(false);
+            reserva.setPagada(i % 2 == 0);;
             reserva.setComprobante_reserva(comprobantes.get(shuffleNumber.get((int) i - 1)));
             reserva.setReservas_usuario(usuarios.get(indexUsuarioRamdom));
             reserva.setReservas_vuelo(vuelos.get(indexVuelosRamdom));
