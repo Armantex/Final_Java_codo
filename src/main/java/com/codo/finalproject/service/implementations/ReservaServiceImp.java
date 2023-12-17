@@ -106,19 +106,6 @@ public class ReservaServiceImp implements IReservaService {
         return historial;
     }
 
-
-    public List<TopDestinoDto> getTopDestinationsByUserId(Long userId) {
-        /*List<Object[]> list = reservaRepository.findTopDestinationsByUserId(userId);
-        if (list.isEmpty()) {
-            throw new TopDestinoNotFoundException("No se encontró ningun destino para el usuario con ID: " + userId);
-        }
-        return  list.stream()
-                .map(dto -> new TopDestinoDto(
-                        dto.getDestino(),
-                        dto.getCantidadReservas()))
-                .toList();*/
-        return null;
-    }
     @Override
     public List<TopDestinoDto> getTopDestinationByUser(Long userId, int rankingSize){
         List<Reserva> reservas = reservaRepository.findAllById(Collections.singleton(userId));

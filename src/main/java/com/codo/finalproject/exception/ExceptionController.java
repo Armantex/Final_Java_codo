@@ -19,18 +19,7 @@ public class ExceptionController {
         ErrorDto err = new ErrorDto(404,ex.getMessage());
         return new ResponseEntity<>(err, HttpStatus.NOT_FOUND);
     }
-
-    @ExceptionHandler(InsertionDBException.class)
-    public ResponseEntity<?> personaNotFound(InsertionDBException ex){
-        ErrorDto err = new ErrorDto(404,ex.getMessage());
-        return new ResponseEntity<>(err, HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler(ClonException.class)
-    public ResponseEntity<?> personaNotFound(ClonException ex){
-        ErrorDto err = new ErrorDto(404,ex.getMessage());
-        return new ResponseEntity<>(err, HttpStatus.BAD_REQUEST);
-    }
+    
     @ExceptionHandler(ReservaNotFoundException.class)
     public ResponseEntity<?> noSeEncontroReserva(ReservaNotFoundException ex){
         ErrorDto err = new ErrorDto(404,ex.getMessage());
