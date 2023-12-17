@@ -3,23 +3,29 @@ package com.codo.finalproject.service.implementations;
 import com.codo.finalproject.dto.request.PagoDto;
 import com.codo.finalproject.dto.request.ReservaDto;
 
+import com.codo.finalproject.dto.request.UsuarioDto;
+import com.codo.finalproject.dto.response.ComprobanteDto;
+import com.codo.finalproject.dto.response.HistorialReservaPorUsuarioDto;
 import com.codo.finalproject.dto.response.ResponseDto;
 import com.codo.finalproject.dto.response.TopDestinoDto;
 import com.codo.finalproject.entity.Comprobante;
 import com.codo.finalproject.entity.Reserva;
+import com.codo.finalproject.entity.Usuario;
+import com.codo.finalproject.exception.ReservaNotFoundException;
 import com.codo.finalproject.exception.TopDestinoNotFoundException;
 import com.codo.finalproject.repository.interfaces.IComprobanteRepository;
 import com.codo.finalproject.repository.interfaces.IReservaRepository;
 import com.codo.finalproject.repository.interfaces.IUsuarioRepository;
 import com.codo.finalproject.service.interfaces.IReservaService;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 
 import java.util.Objects;
 
 import java.util.*;
-import java.util.concurrent.atomic.AtomicReference;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -76,20 +82,29 @@ public class ReservaServiceImp implements IReservaService {
 
     }
 
-   /* @Override
+    @Override
     public List<HistorialReservaPorUsuarioDto> getHistorialReserva(Long idUsuario) {
+        ModelMapper modelMapper = new ModelMapper();
         List<Reserva> listaRepo = reservaRepository.findAllByUsuarioId(idUsuario);
+        List<HistorialReservaPorUsuarioDto> historial = new ArrayList<>();
         String username = usuarioRepository.findById(idUsuario).orElseThrow().getNombre();
+        System.out.println(new ArrayList<>(listaRepo));
+        System.out.println(username);
         if (listaRepo.isEmpty())
             throw new ReservaNotFoundException("No se encontró ninguna reserva para el usuario "+ username + " con ID: " + idUsuario);
-        return listaRepo.stream()
-                .map(reserva -> new HistorialReservaPorUsuarioDto(
+        listaRepo
+                .forEach(reserva ->{
+                        boolean pagada = reserva.getComprobante_reserva().getMonto() != 0;
+                    historial.add(new HistorialReservaPorUsuarioDto(
                         reserva.getFechaViaje(),
-                        reserva.getPagada(),
-                        reserva.getReservas_usuario(),
-                        reserva.getComprobante_reserva())
-                ).toList();
-    }*/
+                        pagada,
+                        modelMapper.map(reserva.getReservas_usuario(),UsuarioDto.class),
+                        modelMapper.map(reserva.getComprobante_reserva(), ComprobanteDto.class)
+                    ));
+                });
+        System.out.println(historial.size());
+        return historial;
+    }
 
 
     public List<TopDestinoDto> getTopDestinationsByUserId(Long userId) {
