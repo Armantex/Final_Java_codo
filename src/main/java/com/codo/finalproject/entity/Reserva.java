@@ -34,8 +34,9 @@ public class Reserva {
     @OneToMany(mappedBy = "asientos_reserva")
     private Set<Asiento> asientos;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "vuelo_id")
-    private Vuelo vuelo_reserva;
+    private Vuelo reservas_vuelo;
+
 
 }

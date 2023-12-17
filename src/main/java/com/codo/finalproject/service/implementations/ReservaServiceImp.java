@@ -2,7 +2,9 @@ package com.codo.finalproject.service.implementations;
 
 import com.codo.finalproject.dto.request.PagoDto;
 import com.codo.finalproject.dto.request.ReservaDto;
+
 import com.codo.finalproject.dto.response.HistorialReservaPorUsuarioDto;
+
 import com.codo.finalproject.dto.response.ResponseDto;
 import com.codo.finalproject.dto.response.TopDestinoDto;
 import com.codo.finalproject.entity.Comprobante;
@@ -16,7 +18,11 @@ import com.codo.finalproject.service.interfaces.IReservaService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Service;
 
+
+import java.util.Objects;
+
 import java.util.*;
+
 
 @Service
 public class ReservaServiceImp implements IReservaService {
@@ -43,11 +49,33 @@ public class ReservaServiceImp implements IReservaService {
     @Override
     public ResponseDto pagar(PagoDto pagoDto) {
         Comprobante comprobanteEntity = mapper.convertValue(pagoDto, Comprobante.class);
-        Comprobante datosComprobante = comprobanteRepository.findByCodigoComprobante(comprobanteEntity.getCodigoComprobante());
-        if (datosComprobante != null) {
+        Comprobante datosComprobante;
+        Reserva datosReserva;
+        try {
+            datosComprobante = comprobanteRepository.findByCodigoComprobante(comprobanteEntity.getCodigoComprobante());
+        } catch (Exception e) {
+            return new ResponseDto("No se encuentra registrado el comprobante");
+        }
+        try {
+            datosReserva = reservaRepository.findByIdComprobante(datosComprobante.getId());
+        } catch (Exception e) {
+            return new ResponseDto("El comprobante no esta asociado a una reserva");
+        }
+
+        if (!Objects.equals(comprobanteEntity.getMonto(), datosComprobante.getMonto())){
+            return new ResponseDto("Montos diferentes correspondiente al comprobante." +
+                                   " Recibido: " + comprobanteEntity.getMonto() +
+                                   " Real: " + datosComprobante.getMonto());
+        } else if (!Objects.equals(comprobanteEntity.getMetodoPago(), datosComprobante.getMetodoPago())){
+            return new ResponseDto("Montos diferentes correspondiente al comprobante." +
+                                   " Recibido: " + comprobanteEntity.getMetodoPago() +
+                                   " Real: " + datosComprobante.getMetodoPago());
+        } else {
+            datosReserva.setPagada(true);
+            reservaRepository.save(datosReserva);
             return new ResponseDto("Tu pago fue realizado con exito");
         }
-        return new ResponseDto("Tu pago fue rechazado");
+
     }
 
     @Override

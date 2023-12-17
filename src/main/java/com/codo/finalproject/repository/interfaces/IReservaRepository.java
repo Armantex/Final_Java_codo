@@ -7,8 +7,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import java.util.List;
 
+
 @Repository
 public interface IReservaRepository extends JpaRepository<Reserva,Long> {
+
+    @Query(value = "SELECT * FROM reserva WHERE comprobante_id=?",nativeQuery = true)
+    Reserva findByIdComprobante(Long idComprobante);
+
     List<Reserva> findAllByUsuarioId(Long idUsuario);
 
     @Query(value = "SELECT vuelo_reserva.aeropuertoDestino, COUNT(vuelo_reserva.aeropuertoDestino) AS destinationCount " +
@@ -18,8 +23,6 @@ public interface IReservaRepository extends JpaRepository<Reserva,Long> {
             "ORDER BY destinationCount DESC " +
             "LIMIT 3", nativeQuery = true)
     List<Object[]> findTopDestinationsByUserId(@Param("userId") Long userId);
-
-
 
 }
 
