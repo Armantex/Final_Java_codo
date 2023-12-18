@@ -88,8 +88,6 @@ public class ReservaServiceImp implements IReservaService {
         List<Reserva> listaRepo = reservaRepository.findAllByUsuarioId(idUsuario);
         List<HistorialReservaPorUsuarioDto> historial = new ArrayList<>();
         String username = usuarioRepository.findById(idUsuario).orElseThrow().getNombre();
-        System.out.println(new ArrayList<>(listaRepo));
-        System.out.println(username);
         if (listaRepo.isEmpty())
             throw new ReservaNotFoundException("No se encontró ninguna reserva para el usuario "+ username + " con ID: " + idUsuario);
         listaRepo
@@ -102,7 +100,6 @@ public class ReservaServiceImp implements IReservaService {
                         modelMapper.map(reserva.getComprobante_reserva(), ComprobanteDto.class)
                     ));
                 });
-        System.out.println(historial.size());
         return historial;
     }
 
