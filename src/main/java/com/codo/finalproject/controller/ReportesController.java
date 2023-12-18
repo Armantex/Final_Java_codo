@@ -17,7 +17,7 @@ public class ReportesController {
         this.informeDiarioService = informeDiarioService;
     }
 
-      @GetMapping("/informeDiario") // Misael
+      @GetMapping("/generarInformeDiario") // Misael
     public ResponseEntity<?>obtenerDestinoPopular(@RequestParam("fecha") LocalDate fecha){
         return new ResponseEntity<>(informeDiarioService.generarInformeDiario(fecha),HttpStatus.OK);
     }
