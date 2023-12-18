@@ -24,15 +24,22 @@ public class IntegrationTest {
     MockMvc mockMvc;
 
     @Test
-    void generarInformeDiarioOkTest() throws Exception{
-        InformeDiarioDto responseDto = new InformeDiarioDto();
-        responseDto.setCantidadDeVentasDelDia(2);
-        MvcResult response = mockMvc.perform(get("/generarInformeDiario").param("fecha",String.valueOf(LocalDate.of(2023,2,2))))
+    void generarInformeDiarioOkTest() throws Exception {
+        MvcResult response = mockMvc.perform(get("/generarInformeDiario").param("fecha", String.valueOf(LocalDate.of(2023, 2, 2))))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("cantidadDeVentasDelDia").value(2))
                 .andReturn();
-        assertEquals("application/json",response.getResponse().getContentType());
-        //assertEquals(responseDto,response.getResponse().get);
+        assertEquals("application/json", response.getResponse().getContentType());
     }
+    @Test
+    void obtenerVuelosDisponiblesOkTest() throws Exception {
+        MvcResult response = mockMvc.perform(get("/getAll/VuelosDisp"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].id").value(2))
+                .andReturn();
+        assertEquals("application/json", response.getResponse().getContentType());
+    }
+
 }
