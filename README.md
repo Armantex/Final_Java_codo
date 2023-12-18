@@ -103,7 +103,7 @@ Realiza una consulta a la base de datos a partir del id del cliente y retorna el
 #### User Story 5 
 
 ```http
-  GET /informeDiario?fecha=
+  GET /generarInformeDiario?fecha=
 ```
 
 | Parameter | Type     | Description                |
