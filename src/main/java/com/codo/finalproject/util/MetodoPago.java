@@ -9,8 +9,4 @@ public enum MetodoPago {
         this.metodoPago = metodoPago;
     }
 
-    @Override
-    public String toString() {
-        return metodoPago;
-    }
 }

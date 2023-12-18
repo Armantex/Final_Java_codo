@@ -14,12 +14,7 @@ public class ExceptionController {
         ErrorDto err = new ErrorDto(404,ex.getMessage());
         return new ResponseEntity<>(err,HttpStatus.NOT_FOUND);
     }
-    @ExceptionHandler(PersonaNotFoundException.class)
-    public ResponseEntity<?> personaNotFound(PersonaNotFoundException ex){
-        ErrorDto err = new ErrorDto(404,ex.getMessage());
-        return new ResponseEntity<>(err, HttpStatus.NOT_FOUND);
-    }
-    
+
     @ExceptionHandler(ReservaNotFoundException.class)
     public ResponseEntity<?> noSeEncontroReserva(ReservaNotFoundException ex){
         ErrorDto err = new ErrorDto(404,ex.getMessage());
