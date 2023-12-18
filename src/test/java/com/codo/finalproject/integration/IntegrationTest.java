@@ -1,14 +1,19 @@
 package com.codo.finalproject.integration;
 
 import com.codo.finalproject.dto.response.InformeDiarioDto;
+import org.antlr.v4.runtime.misc.MultiMap;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.util.MultiValueMap;
+import org.springframework.util.MultiValueMapAdapter;
 
 import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -38,6 +43,28 @@ public class IntegrationTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].id").value(2))
+                .andReturn();
+        assertEquals("application/json", response.getResponse().getContentType());
+    }
+
+    @Test
+    void obtenerDestinosPopularesOkTest() throws Exception {
+        MvcResult response = mockMvc.perform(get("/getInfo/cliente/preferencias/1/1?id=1&rankingSize=2")
+
+        )       .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].destino").value("Destino Generico 2"))
+                .andExpect(jsonPath("$[1].destino").value("Destino Generico 1"))
+                .andReturn();
+        assertEquals("application/json", response.getResponse().getContentType());
+    }
+
+    @Test
+    void obtenerHistorialReservaOkTest() throws Exception{
+        MvcResult response = mockMvc.perform(get("/getInfo/cliente/historial/{idCliente}",1))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].fechaViaje").value(LocalDate.of(2023,2,2).toString()))
                 .andReturn();
         assertEquals("application/json", response.getResponse().getContentType());
     }
