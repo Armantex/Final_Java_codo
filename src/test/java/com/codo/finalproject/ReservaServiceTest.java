@@ -12,7 +12,6 @@ import com.codo.finalproject.entity.Asiento;
 import com.codo.finalproject.entity.Usuario;
 import com.codo.finalproject.service.implementations.ReservaServiceImp;
 import com.codo.finalproject.util.MetodoPago;
-import net.bytebuddy.asm.Advice;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

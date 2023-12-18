@@ -1,10 +1,7 @@
 package com.codo.finalproject.exceptionsTest;
 
 import com.codo.finalproject.dto.response.ErrorDto;
-import com.codo.finalproject.exception.ExceptionController;
-import com.codo.finalproject.exception.NoFlightsAvailableException;
-import com.codo.finalproject.exception.ReservaNotFoundException;
-import com.codo.finalproject.exception.TopDestinoNotFoundException;
+import com.codo.finalproject.exception.*;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -39,6 +36,18 @@ public class ExceptionControllerTest {
         ResponseEntity<?> expected = new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
         //act
         ResponseEntity<?> actual = exceptionController.noSeEncontroReserva(argumentoSut);
+        //assert
+        assertEquals(expected,actual);
+    }
+
+    @Test
+    void NoReservasForReportesExceptionOkTest(){
+        //Arrange
+        ErrorDto body = new ErrorDto(404,"Test Msg");
+        NoReservasForReporteException argumentoSut = new NoReservasForReporteException("Test Msg");
+        ResponseEntity<?> expected = new ResponseEntity<>(body,HttpStatus.NOT_FOUND);
+        //Act
+        ResponseEntity<?> actual = exceptionController.noReservaForReporte(argumentoSut);
         //assert
         assertEquals(expected,actual);
     }

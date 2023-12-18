@@ -5,16 +5,12 @@ import com.codo.finalproject.entity.Pasajero;
 import com.codo.finalproject.entity.Reserva;
 import com.codo.finalproject.entity.Vuelo;
 import com.codo.finalproject.exception.NoReservasForReporteException;
-import com.codo.finalproject.repository.interfaces.IInformeDiarioRepository;
 import com.codo.finalproject.repository.interfaces.IReservaRepository;
 import com.codo.finalproject.service.implementations.InformeDiarioServiceImp;
-import com.codo.finalproject.service.interfaces.IInformeDiarioService;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDate;
