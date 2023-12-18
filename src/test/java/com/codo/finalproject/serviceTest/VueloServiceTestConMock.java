@@ -25,12 +25,12 @@ public class VueloServiceTestConMock {
     @InjectMocks
     VueloServiceImpl service;
 
-    /*@Test
+    @Test
     void getVuelosThrowsNoflightAvailableException(){
         //arrange
         List<Vuelo> empty = new ArrayList<>();
-        when(repository.findByNotEmpty()).thenReturn(empty);
+        when(repository.findByIsFullFalse()).thenReturn(empty);
         //act and assert
         assertThrows(NoFlightsAvailableException.class, ()->service.buscarDisponibles());
-    }*/
+    }
 }

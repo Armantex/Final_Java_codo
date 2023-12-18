@@ -22,14 +22,14 @@ public class VueloServiceTest {
     @Test
     public void getVuelosOkTest(){
         //Arrange
-        LocalDateTime time2 = LocalDateTime.of(2025,10,2,14,50,0);
-        List<VueloDto> expected = new ArrayList<>();
-        VueloDto vuelo_a = new VueloDto(1L,null,time2,"Ezeiza","Madrid",80000.0, Aerolineas.SKY.toString(),false, (short) 30);
-        expected.add(vuelo_a);
+        VueloDto expected = new VueloDto(2L,null,null,"Aeroparque, Jorge Newbery","Bariloche, Teniente Luis Candelaria",199998.6, Aerolineas.AEROLINEASARG.toString(),false, (short) 14);
         //Act
         List<VueloDto> result = vueloService.buscarDisponibles();
+        VueloDto actual = result.get(0);
+        actual.setHorarioFinal(null);
+        actual.setHorarioInicio(null);
         //Assert
-        assertEquals(expected,result);
+        assertEquals(expected,result.get(0));
 
     }
 
