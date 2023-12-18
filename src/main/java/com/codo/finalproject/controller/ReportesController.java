@@ -17,31 +17,8 @@ public class ReportesController {
         this.informeDiarioService = informeDiarioService;
     }
 
-
-    @GetMapping("/getInfo/InformeDiario")
-    public ResponseEntity<?> obtenerInformeDiarioCompleto(){
-        return new ResponseEntity<>(null, HttpStatus.OK);
-    }
-
-    @GetMapping("/getInfo/InformeDiario/VentasDelDia") // ale
-    //Listado de boletosDTO
-    public ResponseEntity<?>obtenerVentasDelDia(){
-        return new ResponseEntity<>(null,HttpStatus.OK);
-    }
-
-    @GetMapping("/getInfo/InformeDiario/IngresosDelDia") // carla
-    // La cantidad de $ recaudada en el día
-    public ResponseEntity<?>obtenerIngresosDelDia(){
-        return new ResponseEntity<>(null,HttpStatus.OK);
-    }
-
-    @GetMapping("/informeDiario") // Misael
+      @GetMapping("/informeDiario") // Misael
     public ResponseEntity<?>obtenerDestinoPopular(@RequestParam("fecha") LocalDate fecha){
         return new ResponseEntity<>(informeDiarioService.generarInformeDiario(fecha),HttpStatus.OK);
-    }
-
-    @GetMapping("/getInfo/InformeDiario/TendenciaReservas") // carla
-    public ResponseEntity<?>obtenerTendenciaReservas(){
-        return new ResponseEntity<>(null,HttpStatus.OK);
     }
 }

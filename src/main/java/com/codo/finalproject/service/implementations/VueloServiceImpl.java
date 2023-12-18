@@ -20,7 +20,6 @@ public class VueloServiceImpl implements IVueloService {
 
     public VueloServiceImpl(IVueloRepository vueloRepository) {
         this.vueloRepository = vueloRepository;
-        //vueloGenerico();
     }
 
     @Override
@@ -31,15 +30,6 @@ public class VueloServiceImpl implements IVueloService {
         List<VueloDto> vueloDto = new ArrayList<>();
         vuelosEnt.stream().forEach(v -> vueloDto.add((mapper.map(v, VueloDto.class))));
         return vueloDto;
-    }
-
-    private void vueloGenerico(){
-        //LocalDateTime time1 = LocalDateTime.now();
-        LocalDateTime time2 = LocalDateTime.of(2025,10,2,14,50,0);
-        Vuelo vuelo = new Vuelo(1L,null,time2,"Ezeiza","Madrid",80000.0,"asd",false,(short) 30,Aerolineas.SKY.toString(),null,null);
-        vueloRepository.save(vuelo);
-        Vuelo vuelo2 = new Vuelo(2L,null,time2,"Cordoba","Bariloche", 30000.0,"asd",true, (short) 0,Aerolineas.AEROLINEASARG.toString(),null,null);
-        vueloRepository.save(vuelo2);
     }
 
 }

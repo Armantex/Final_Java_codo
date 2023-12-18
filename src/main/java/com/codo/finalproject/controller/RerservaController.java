@@ -21,7 +21,7 @@ public class RerservaController {
 
     @PostMapping("/usuario/pagar") // armando
     public ResponseEntity<?>pagar(@RequestBody @Valid PagoDto pagoDto){
-        return new ResponseEntity<>(service.pagar(pagoDto),HttpStatus.OK); // falta saber que le pongo de argumento
+        return new ResponseEntity<>(service.pagar(pagoDto),HttpStatus.OK);
     }
 
 }
