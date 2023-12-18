@@ -23,20 +23,37 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class ReservaServiceTest {
     @Autowired
     ReservaServiceImp reservaServiceImp;
-//@Test
+    @Test
     public void pagarTestValid(){
-        PagoDto pagoTest = new PagoDto(MetodoPago.TC, 105.25,182);
+        PagoDto pagoTest = new PagoDto(MetodoPago.TB, 1608.19,723);
         ResponseDto respuestaA = reservaServiceImp.pagar(pagoTest);
         ResponseDto respuestaC = new ResponseDto("Tu pago fue realizado con exito");
         assertEquals(respuestaA,respuestaC);
     }
-//@Test
-    public void pagarTestNotValid(){
-        PagoDto pagoTest = new PagoDto(MetodoPago.TC, 105.25,184);
+    @Test
+    public void pagarTestMetodoPagoNotValid(){
+        PagoDto pagoTest = new PagoDto(MetodoPago.TC, 1608.19,723);
         ResponseDto respuestaA = reservaServiceImp.pagar(pagoTest);
-        ResponseDto respuestaC = new ResponseDto("Tu pago fue rechazado");
+        ResponseDto respuestaC = new ResponseDto("Montos diferentes correspondiente al comprobante. Recibido: TC Real: TB");
         assertEquals(respuestaA,respuestaC);
     }
+
+    @Test
+    public void pagarTestMontoNotValid(){
+        PagoDto pagoTest = new PagoDto(MetodoPago.TB, 999.9,723);
+        ResponseDto respuestaA = reservaServiceImp.pagar(pagoTest);
+        ResponseDto respuestaC = new ResponseDto("Montos diferentes correspondiente al comprobante. Recibido: 999.9 Real: 1608.19");
+        assertEquals(respuestaA,respuestaC);
+    }
+
+    @Test
+    public void pagarTestComprobanteNotValid(){
+        PagoDto pagoTest = new PagoDto(MetodoPago.TB, 999.9,9999);
+        ResponseDto respuestaA = reservaServiceImp.pagar(pagoTest);
+        ResponseDto respuestaC = new ResponseDto("El comprobante no esta asociado a una reserva");
+        assertEquals(respuestaA,respuestaC);
+    }
+
 
     @Test
     public void getHistorialReservaOkTest(){

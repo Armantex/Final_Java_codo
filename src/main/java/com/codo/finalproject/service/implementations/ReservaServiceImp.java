@@ -53,13 +53,8 @@ public class ReservaServiceImp implements IReservaService {
     @Override
     public ResponseDto pagar(PagoDto pagoDto) {
         Comprobante comprobanteEntity = mapper.convertValue(pagoDto, Comprobante.class);
-        Comprobante datosComprobante;
         Reserva datosReserva;
-        try {
-            datosComprobante = comprobanteRepository.findByCodigoComprobante(comprobanteEntity.getCodigoComprobante());
-        } catch (Exception e) {
-            return new ResponseDto("No se encuentra registrado el comprobante");
-        }
+        Comprobante datosComprobante = comprobanteRepository.findByCodigoComprobante(comprobanteEntity.getCodigoComprobante());
         try {
             datosReserva = reservaRepository.findByIdComprobante(datosComprobante.getId());
         } catch (Exception e) {

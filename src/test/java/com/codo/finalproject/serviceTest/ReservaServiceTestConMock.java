@@ -1,12 +1,17 @@
 package com.codo.finalproject.serviceTest;
 
+import com.codo.finalproject.dto.request.PagoDto;
+import com.codo.finalproject.dto.response.ResponseDto;
+import com.codo.finalproject.entity.Comprobante;
 import com.codo.finalproject.entity.Reserva;
 import com.codo.finalproject.entity.Usuario;
 import com.codo.finalproject.exception.ReservaNotFoundException;
 import com.codo.finalproject.exception.TopDestinoNotFoundException;
+import com.codo.finalproject.repository.interfaces.IComprobanteRepository;
 import com.codo.finalproject.repository.interfaces.IReservaRepository;
 import com.codo.finalproject.repository.interfaces.IUsuarioRepository;
 import com.codo.finalproject.service.implementations.ReservaServiceImp;
+import com.codo.finalproject.util.MetodoPago;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -18,6 +23,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
@@ -27,6 +33,8 @@ public class ReservaServiceTestConMock {
     IReservaRepository repository;
     @Mock
     IUsuarioRepository usuarioRepository;
+    @Mock
+    IComprobanteRepository comprobanteRepository;
 
     @InjectMocks
     ReservaServiceImp service;
