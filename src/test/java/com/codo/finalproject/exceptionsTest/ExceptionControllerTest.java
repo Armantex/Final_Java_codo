@@ -4,6 +4,7 @@ import com.codo.finalproject.dto.response.ErrorDto;
 import com.codo.finalproject.exception.ExceptionController;
 import com.codo.finalproject.exception.NoFlightsAvailableException;
 import com.codo.finalproject.exception.ReservaNotFoundException;
+import com.codo.finalproject.exception.TopDestinoNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -38,6 +39,18 @@ public class ExceptionControllerTest {
         ResponseEntity<?> expected = new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
         //act
         ResponseEntity<?> actual = exceptionController.noSeEncontroReserva(argumentoSut);
+        //assert
+        assertEquals(expected,actual);
+    }
+
+    @Test
+    void TopDestinoNotFoundExceptionOkTest(){
+        //Arrange
+        ErrorDto body = new ErrorDto(404,"Test Msg");
+        TopDestinoNotFoundException argumentoSut = new TopDestinoNotFoundException("Test Msg");
+        ResponseEntity<?> expected = new ResponseEntity<>(body,HttpStatus.NOT_FOUND);
+        //Act
+        ResponseEntity<?> actual = exceptionController.TopDestinoNotFoundException(argumentoSut);
         //assert
         assertEquals(expected,actual);
     }

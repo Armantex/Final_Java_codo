@@ -3,6 +3,7 @@ package com.codo.finalproject.serviceTest;
 import com.codo.finalproject.entity.Reserva;
 import com.codo.finalproject.entity.Usuario;
 import com.codo.finalproject.exception.ReservaNotFoundException;
+import com.codo.finalproject.exception.TopDestinoNotFoundException;
 import com.codo.finalproject.repository.interfaces.IReservaRepository;
 import com.codo.finalproject.repository.interfaces.IUsuarioRepository;
 import com.codo.finalproject.service.implementations.ReservaServiceImp;
@@ -13,6 +14,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,5 +40,17 @@ public class ReservaServiceTestConMock {
         when(usuarioRepository.findById(usuarioId)).thenReturn(Optional.of(new Usuario()));
         //act and assert
         assertThrows(ReservaNotFoundException.class,()->service.getHistorialReserva(usuarioId));
+    }
+
+    @Test
+    public void getTopDestinationByUserThrowsTopDestinoNotFoundException(){
+        //Arrange
+        Long usuarioId = 1L;
+        int rankingSize = 0;
+        List<Reserva> empty = new ArrayList<>();
+        when(repository.findAllById(Collections.singleton(usuarioId))).thenReturn(empty);
+        when(usuarioRepository.findById(usuarioId)).thenReturn(Optional.of(new Usuario("Nombre Generico 1")));
+        //act
+        assertThrows(TopDestinoNotFoundException.class,()->service.getTopDestinationByUser(usuarioId,rankingSize));
     }
 }

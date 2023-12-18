@@ -24,4 +24,8 @@ public class Usuario {
 
     @OneToMany(mappedBy = "reservas_usuario")
     private Set<Reserva> reservas;
+
+    public Usuario(String nombre) {
+        this.nombre = nombre;
+    }
 }
