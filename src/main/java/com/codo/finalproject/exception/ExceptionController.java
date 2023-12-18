@@ -23,7 +23,7 @@ public class ExceptionController {
     @ExceptionHandler(ReservaNotFoundException.class)
     public ResponseEntity<?> noSeEncontroReserva(ReservaNotFoundException ex){
         ErrorDto err = new ErrorDto(404,ex.getMessage());
-        return new ResponseEntity<>(err, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(err, HttpStatus.NOT_FOUND);
     }
 
     @ExceptionHandler(NoReservasForReporteException.class)
