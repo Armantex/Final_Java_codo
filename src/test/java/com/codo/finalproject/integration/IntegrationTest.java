@@ -1,6 +1,11 @@
 package com.codo.finalproject.integration;
 
+import com.codo.finalproject.dto.request.PagoDto;
 import com.codo.finalproject.dto.response.InformeDiarioDto;
+import com.codo.finalproject.util.MetodoPago;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import org.antlr.v4.runtime.misc.MultiMap;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +70,21 @@ public class IntegrationTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].fechaViaje").value(LocalDate.of(2023,2,2).toString()))
+                .andReturn();
+        assertEquals("application/json", response.getResponse().getContentType());
+    }
+
+    @Test
+    void pagarOkTest() throws Exception{
+        PagoDto pagoTest = new PagoDto(MetodoPago.TB, 1608.19,723);
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(SerializationFeature.WRAP_ROOT_VALUE, false);
+        ObjectWriter ow = mapper.writer().withDefaultPrettyPrinter();
+        String requestJson = ow.writeValueAsString(pagoTest);
+
+        MvcResult response = mockMvc.perform(post("/usuario/pagar").contentType("application/json").content(requestJson))
+                .andDo(print())
+                .andExpect(status().isOk())
                 .andReturn();
         assertEquals("application/json", response.getResponse().getContentType());
     }
