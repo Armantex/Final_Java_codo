@@ -1,11 +1,14 @@
 package com.codo.finalproject;
 
 import com.codo.finalproject.dto.request.PagoDto;
+import com.codo.finalproject.dto.request.PasajeroDto;
+import com.codo.finalproject.dto.request.ReservaDto;
 import com.codo.finalproject.dto.request.UsuarioDto;
 import com.codo.finalproject.dto.response.ComprobanteDto;
 import com.codo.finalproject.dto.response.HistorialReservaPorUsuarioDto;
 import com.codo.finalproject.dto.response.ResponseDto;
 import com.codo.finalproject.dto.response.TopDestinoDto;
+import com.codo.finalproject.entity.Asiento;
 import com.codo.finalproject.entity.Usuario;
 import com.codo.finalproject.service.implementations.ReservaServiceImp;
 import com.codo.finalproject.util.MetodoPago;
@@ -15,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -37,7 +41,6 @@ public class ReservaServiceTest {
         ResponseDto respuestaC = new ResponseDto("Montos diferentes correspondiente al comprobante. Recibido: TC Real: TB");
         assertEquals(respuestaA,respuestaC);
     }
-
     @Test
     public void pagarTestMontoNotValid(){
         PagoDto pagoTest = new PagoDto(MetodoPago.TB, 999.9,723);
@@ -45,7 +48,6 @@ public class ReservaServiceTest {
         ResponseDto respuestaC = new ResponseDto("Montos diferentes correspondiente al comprobante. Recibido: 999.9 Real: 1608.19");
         assertEquals(respuestaA,respuestaC);
     }
-
     @Test
     public void pagarTestComprobanteNotValid(){
         PagoDto pagoTest = new PagoDto(MetodoPago.TB, 999.9,9999);
@@ -53,8 +55,6 @@ public class ReservaServiceTest {
         ResponseDto respuestaC = new ResponseDto("El comprobante no esta asociado a una reserva");
         assertEquals(respuestaA,respuestaC);
     }
-
-
     @Test
     public void getHistorialReservaOkTest(){
         //Arrange
@@ -67,9 +67,6 @@ public class ReservaServiceTest {
         //Assert
         assertEquals(expected,actual);
     }
-
-
-
     @Test
     public void getTopDestinationByUserOkTest(){
         //Arrange
@@ -79,15 +76,18 @@ public class ReservaServiceTest {
         //Assert
         assertEquals(expected,actual);
     }
-    /*@Test
-    void noSeEncontroReservaValid(){
-        //arrange
-        ErrorDto body = new ErrorDto(404,"Test Msg");
-        ReservaNotFoundException argumentoSut = new ReservaNotFoundException("Test Msg");
-        ResponseEntity<?> expected = new ResponseEntity<>(body, HttpStatus.NOT_FOUND);
-        //act
-        ResponseEntity<?> actual = exceptionController.noSeEncontroReserva(argumentoSut);
-        //assert
+    @Test
+    public void crearReservaOkTest(){
+        //Arrange
+        List<PasajeroDto> pasajeroDtoList = new ArrayList<>();
+        List<Asiento> asientos = new ArrayList<>();
+        pasajeroDtoList.add(new PasajeroDto("Nombre Generico 1","Apellido Generico 1"));
+        asientos.add(new Asiento(1L,true,null,null));
+        ReservaDto reserva = new ReservaDto(LocalDate.of(2023,12,12),true,pasajeroDtoList,asientos,new Usuario());
+        ResponseDto expected =  new ResponseDto("La reserva se guardo correctamente.");
+        //Act
+        ResponseDto actual = reservaServiceImp.crearReserva(reserva);
+        //Assert
         assertEquals(expected,actual);
-    }*/
+    }
 }

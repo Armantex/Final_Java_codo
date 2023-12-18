@@ -5,11 +5,8 @@ import com.codo.finalproject.entity.Vuelo;
 import com.codo.finalproject.exception.NoFlightsAvailableException;
 import com.codo.finalproject.repository.interfaces.IVueloRepository;
 import com.codo.finalproject.service.interfaces.IVueloService;
-import com.codo.finalproject.util.Aerolineas;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 

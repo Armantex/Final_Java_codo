@@ -2,7 +2,6 @@ package com.codo.finalproject.service.implementations;
 
 import com.codo.finalproject.dto.request.PagoDto;
 import com.codo.finalproject.dto.request.ReservaDto;
-
 import com.codo.finalproject.dto.request.UsuarioDto;
 import com.codo.finalproject.dto.response.ComprobanteDto;
 import com.codo.finalproject.dto.response.HistorialReservaPorUsuarioDto;
@@ -10,7 +9,6 @@ import com.codo.finalproject.dto.response.ResponseDto;
 import com.codo.finalproject.dto.response.TopDestinoDto;
 import com.codo.finalproject.entity.Comprobante;
 import com.codo.finalproject.entity.Reserva;
-import com.codo.finalproject.entity.Usuario;
 import com.codo.finalproject.exception.ReservaNotFoundException;
 import com.codo.finalproject.exception.TopDestinoNotFoundException;
 import com.codo.finalproject.repository.interfaces.IComprobanteRepository;
@@ -20,12 +18,8 @@ import com.codo.finalproject.service.interfaces.IReservaService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
-
-
 import java.util.Objects;
-
 import java.util.*;
-import java.util.stream.Collectors;
 
 
 @Service
@@ -33,10 +27,8 @@ public class ReservaServiceImp implements IReservaService {
     private final IReservaRepository reservaRepository;
     private final IUsuarioRepository usuarioRepository;
     private final IComprobanteRepository comprobanteRepository;
-    private final ObjectMapper mapper;
 
     public ReservaServiceImp(IReservaRepository reservaRepository, IUsuarioRepository usuarioRepository, IComprobanteRepository comprobanteRepository){
-        mapper = new ObjectMapper();
         this.reservaRepository = reservaRepository;
         this.comprobanteRepository = comprobanteRepository;
         this.usuarioRepository = usuarioRepository;
@@ -45,13 +37,15 @@ public class ReservaServiceImp implements IReservaService {
 
     @Override
     public ResponseDto crearReserva(ReservaDto reserva) {
-        Reserva reservaEntity = mapper.convertValue(reserva, Reserva.class);
+        ModelMapper modelMapper = new ModelMapper();
+        Reserva reservaEntity = modelMapper.map(reserva,Reserva.class);
         reservaRepository.save(reservaEntity);
         return new ResponseDto("La reserva se guardo correctamente.");
     }
 
     @Override
     public ResponseDto pagar(PagoDto pagoDto) {
+        ObjectMapper mapper = new ObjectMapper();
         Comprobante comprobanteEntity = mapper.convertValue(pagoDto, Comprobante.class);
         Reserva datosReserva;
         Comprobante datosComprobante = comprobanteRepository.findByCodigoComprobante(comprobanteEntity.getCodigoComprobante());
