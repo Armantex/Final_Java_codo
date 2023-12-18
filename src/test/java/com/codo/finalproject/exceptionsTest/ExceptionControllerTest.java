@@ -3,7 +3,6 @@ package com.codo.finalproject.exceptionsTest;
 import com.codo.finalproject.dto.response.ErrorDto;
 import com.codo.finalproject.exception.ExceptionController;
 import com.codo.finalproject.exception.NoFlightsAvailableException;
-import com.codo.finalproject.exception.PersonaNotFoundException;
 import com.codo.finalproject.exception.ReservaNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

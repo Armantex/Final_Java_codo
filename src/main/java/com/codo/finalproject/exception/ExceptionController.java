@@ -26,4 +26,10 @@ public class ExceptionController {
         ErrorDto err = new ErrorDto(404,ex.getMessage());
         return new ResponseEntity<>(err, HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(TopDestinoNotFoundException.class)
+    public ResponseEntity<?> TopDestinoNotFoundException(TopDestinoNotFoundException ex){
+        ErrorDto err = new ErrorDto(404,ex.getMessage());
+        return new ResponseEntity<>(err,HttpStatus.NOT_FOUND);
+    }
 }
